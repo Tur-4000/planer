@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 
-# Create your views here.
+from .models import Documents
+from .forms import DocumentForm
 
 
 def todo_list(request):
@@ -9,4 +9,40 @@ def todo_list(request):
 
 
 def documents_list(request):
-    return render(request, 'planer/list_documents.html')
+    documents = Documents.objects.all()
+    return render(request,
+                  'planer/list_documents.html',
+                  {'documents': documents})
+
+
+def document_add(request):
+    title = 'Добавить новый документ'
+    if request.method == 'POST':
+        form = DocumentForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            return render(request, 'planer/add_document.html', {'form': form, 'title': title})
+        return redirect('documents_list')
+    else:
+        form = DocumentForm()
+    return render(request,
+                  'planer/add_document.html',
+                  {'form': form, 'title': title})
+
+
+def document_edit(request, document_id):
+    title = 'Редактировать документ'
+    if request.method == 'POST':
+        document = get_object_or_404(Documents, id=document_id)
+        form = DocumentForm(request.POST, instance=document)
+        if form.is_valid():
+            form.save()
+        else:
+            return render(request, 'planer/add_document.html', {'form': form, 'title': title,})
+        return redirect('documents_list')
+    document = get_object_or_404(Documents, id=document_id)
+    form = DocumentForm(instance=document)
+    return render(request,
+                  'planer/add_document.html',
+                  {'form': form, 'title': title, 'document': document})

@@ -7,5 +7,32 @@
 {% block content %}
   <h1>Справочник документов</h1>
 
+    <a href="{% url 'document_add' %}" class="btn btn-outline-primary mb-2">
+      <span class="icon icon-list-add"></span>
+      Добавить новый документ</a>
+    <br>
 
+
+  <table class="table table-sm table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Документ</th>
+        <th>Периодичность</th>
+        <th>Описание</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for document in documents %}
+        <tr>
+          <td>
+            <a href="{% url 'document_edit' document.id %}"><span class="icon icon-pencil"></span></a>
+          </td>
+          <td>{{ document.document_name }}</td>
+          <td>{{ document.get_period_display }}</td>
+          <td>{{ document.description }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
