@@ -14,8 +14,7 @@ class Documents(models.Model):
                                      blank=False,
                                      verbose_name='Название документа')
     period = models.PositiveSmallIntegerField(choices=PERIOD,
-                                              verbose_name='Период',
-                                              default=2)
+                                              verbose_name='Период')
     description = models.TextField(blank=True, verbose_name='Описание')
 
     class Meta:

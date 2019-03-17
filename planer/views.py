@@ -33,15 +33,16 @@ def document_add(request):
 
 def document_edit(request, document_id):
     title = 'Редактировать документ'
+    document = get_object_or_404(Documents, id=document_id)
     if request.method == 'POST':
-        document = get_object_or_404(Documents, id=document_id)
         form = DocumentForm(request.POST, instance=document)
         if form.is_valid():
             form.save()
         else:
-            return render(request, 'planer/add_document.html', {'form': form, 'title': title,})
+            return render(request,
+                          'planer/add_document.html',
+                          {'form': form, 'title': title, 'document': document})
         return redirect('documents_list')
-    document = get_object_or_404(Documents, id=document_id)
     form = DocumentForm(instance=document)
     return render(request,
                   'planer/add_document.html',
