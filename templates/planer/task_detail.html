@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+  {{ block.super }} - Задача подробно
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="jumbotron">
+    <h1 class="display-4">{{ task.document }}</h1>
+    <p>{{ task.document.description }}</p>
+    <p class="lead"><strong>Срок завершения:</strong> {{ task.due_date }}</p>
+    <p class="lead"><strong>Дата закрытия:</strong> {{ task.end_date|default:"В работе" }}</p>
+    <p>{{ task.note|default:"" }}</p>
+
+    <hr class="my-4">
+
+    <form method="post" class="">
+      {% csrf_token %}
+
+      {{ form|crispy }}
+
+      <div class="btn-group mt-1" role="group">
+        <a href="{% url 'todo_list' %}" class="btn btn-info">
+          <span class="icon icon-reply"></span> Назад к задачам</a>
+        <button type="submit" class="btn btn-primary">
+          <span class="icon icon-floppy"></span>
+          Сохранить</button>
+      </div>
+    </form>
+
+  </div>
+
+{% endblock %}

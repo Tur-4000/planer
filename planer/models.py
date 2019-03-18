@@ -39,7 +39,14 @@ class TodoList(models.Model):
                                 verbose_name='Крайний срок')
     end_date = models.DateField(db_index=True,
                                 blank=True,
+                                null=True,
                                 verbose_name='Дата завершения')
+    is_ended = models.BooleanField(db_index=True,
+                                   default=False,
+                                   verbose_name='Завершена')
+    note = models.TextField(blank=True,
+                            null=True,
+                            verbose_name='Примечание')
 
     class Meta:
         verbose_name = 'Задача'

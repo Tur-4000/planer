@@ -2,6 +2,62 @@
 
 {% block content %}
 
-  <h1>Hello</h1>
+  <h1>{{ title }}</h1>
+
+  {% if not is_ended %}
+
+    <div class="row">
+      <div class="col-md-6">
+        <a href="{% url 'task_add' %}" class="btn btn-outline-success mb-md-3">
+          <span class="icon icon-list-add"></span>
+          Добавить задачу</a>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="{% url 'tasks_ended' %}" class="btn btn-outline-secondary mb-md-3 float-right">
+          <span class="icon icon-list"></span>
+          Показать закрытые</a>
+      </a>
+      </div>
+    </div>
+
+  {% endif %}
+
+  <table class="table table-sm table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Срок</th>
+        {% if is_ended %}
+          <th>Завершена</th>
+        {% endif %}
+        <th>Документ</th>
+        <th>Примечание</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for task in todolist %}
+
+        <tr>
+          <td>
+            <a href="{% url 'task_edit' task.id %}"><span class="icon icon-pencil"></span></a>
+          </td>
+          <td>{{ task.due_date }}</td>
+
+          {% if is_ended %}
+            <td>{{ task.end_date }}</td>
+          {% endif %}
+
+          <td>
+            <a href="{% url 'task_detail' task.id %}">{{ task.document }}</a>
+          </td>
+          <td>{{ task.note|default:"" }}</td>
+        </tr>
+
+      {% endfor %}
+
+    </tbody>
+  </table>
 
 {% endblock %}

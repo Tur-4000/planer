@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {{ block.super }} - Добавить задачу
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="container col-6">
+    <h3>{{ title }}</h3>
+
+    <form method="post" class="">
+      {% csrf_token %}
+
+      {{ form|crispy }}
+
+      <div class="btn-group mt-1" role="group">
+        <a href="{% url 'todo_list' %}" class="btn btn-info">
+          <span class="icon icon-reply"></span> Назад к задачам</a>
+        <button type="submit" class="btn btn-primary">
+          <span class="icon icon-floppy"></span>
+          Сохранить</button>
+      </div>
+    </form>
+  </div>
+
+{% endblock %}
