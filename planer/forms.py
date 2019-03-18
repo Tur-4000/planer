@@ -1,7 +1,7 @@
+import datetime
+
 from django import forms
 from django.core.exceptions import ValidationError
-from django.shortcuts import get_object_or_404
-import datetime
 
 from .models import Documents, TodoList
 
@@ -42,15 +42,16 @@ class TaskEndForm(forms.ModelForm):
     def clean(self):
         super(TaskEndForm, self).clean()
 
-        start_date = self.instance.due_date
         date = self.cleaned_data['end_date']
-
-        if date < start_date:
-            raise ValidationError('Задача не может быть закрыта раньше чем начата')
 
         if not date:
             raise ValidationError('Не установлена дата закрытия задачи')
 
         if date > datetime.date.today():
             raise ValidationError('Нельзя закрывать задачи будущим числом')
+
+        start_date = self.instance.due_date
+
+        if date < start_date:
+            raise ValidationError('Задача не может быть закрыта раньше чем начата')
 
