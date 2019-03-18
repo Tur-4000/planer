@@ -27,3 +27,26 @@ class Documents(models.Model):
 
     def get_absolute_url(self):
         return reverse('document_detail', kwargs={'pk': self.id})
+
+
+class TodoList(models.Model):
+    document = models.ForeignKey(Documents,
+                                 on_delete=models.CASCADE,
+                                 verbose_name='Документ',
+                                 related_name='task')
+    due_date = models.DateField(db_index=True,
+                                blank=False,
+                                verbose_name='Крайний срок')
+    end_date = models.DateField(db_index=True,
+                                blank=True,
+                                verbose_name='Дата завершения')
+
+    class Meta:
+        verbose_name = 'Задача'
+        verbose_name_plural = 'Задачи'
+
+    def __str__(self):
+        return f'{self.document} - {self.due_date}'
+
+    def get_absolute_url(self):
+        return reverse('task_detail', kwargs={'pk': self.id})
