@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+import datetime
 from .models import Documents, TodoList
 from .forms import DocumentForm, TaskForm, TaskEndForm
 
 
 def todo_list(request):
+    today = datetime.date.today()
     title = 'Скоро'
     is_ended = False
     todolist = TodoList.objects.filter(is_ended=False).order_by('due_date')
     return render(request, 'planer/todo_list.html',
-                  {'todolist': todolist, 'title': title, 'is_ended': is_ended})
+                  {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today})
 
 
 def tasks_ended(request):

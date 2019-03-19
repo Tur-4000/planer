@@ -39,7 +39,10 @@
 
       {% for task in todolist %}
 
-        <tr>
+        <tr {% if today > task.due_date %}
+            class="alert alert-danger"
+            {% endif %}
+            >
           <td>
             <a href="{% url 'task_edit' task.id %}"><span class="icon icon-pencil"></span></a>
           </td>
@@ -51,6 +54,8 @@
 
           <td>
             <a href="{% url 'task_detail' task.id %}">{{ task.document }}</a>
+            <br>
+            <span class="badge badge-success">документ</span>
           </td>
           <td>{{ task.note|default:"" }}</td>
         </tr>

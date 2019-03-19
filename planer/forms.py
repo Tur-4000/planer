@@ -42,13 +42,13 @@ class TaskEndForm(forms.ModelForm):
     def clean(self):
         super(TaskEndForm, self).clean()
 
-        date = self.cleaned_data['end_date']
+        end_date = self.cleaned_data['end_date']
 
-        if not date:
+        if not end_date:
             raise ValidationError('Не установлена дата закрытия задачи')
 
         due_date = self.instance.due_date
         today = datetime.date.today()
 
-        if due_date > today and due_date < date:
-            raise ValidationError('Нельзя закрывать задачи будущим числом')
+        if due_date < today and end_date > today:
+            raise ValidationError('Нельзя закрывать просроченные задачи будущим числом')
