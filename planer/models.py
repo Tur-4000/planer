@@ -1,5 +1,19 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.utils.text import slugify as django_slugify
+
+
+# from django.template.defaultfilters import slugify as django_slugify
+
+alphabet = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
+            'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+            'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'yu',
+            'я': 'ya'}
+
+
+def gen_slug(s):
+    new_slug = django_slugify(''.join(alphabet.get(w, w) for w in s.lower()), allow_unicode=True)
+    return new_slug
 
 
 class Documents(models.Model):
@@ -29,14 +43,60 @@ class Documents(models.Model):
         return reverse('document_detail', kwargs={'pk': self.id})
 
 
+class Category(models.Model):
+    COLOR = (
+        (1, 'primary'),
+        (2, 'secondary'),
+        (3, 'success'),
+        (4, 'danger'),
+        (5, 'warning'),
+        (6, 'info'),
+        (7, 'dark'),
+    )
+
+    name = models.CharField(db_index=True,
+                            blank=False,
+                            max_length=32,
+                            verbose_name='Название')
+    slug = models.SlugField(max_length=32,
+                            db_index=True,
+                            blank=False,
+                            unique=True)
+    description = models.TextField(blank=True,
+                                   null=True,
+                                   verbose_name='Описание')
+    color = models.PositiveSmallIntegerField(choices=COLOR,
+                                             db_index=True,
+                                             blank=False,
+                                             default=2,
+                                             verbose_name='Цвет')
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ['name']
+
+    def __str__(self):
+        return f'{self.name}'
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = gen_slug(self.name)
+        super().save(*args, **kwargs)
+
+
 class TodoList(models.Model):
-    document = models.ForeignKey(Documents,
-                                 on_delete=models.CASCADE,
-                                 verbose_name='Документ',
-                                 related_name='task')
+    title = models.CharField(db_index=True,
+                             blank=False,
+                             max_length=128,
+                             verbose_name='Название задачи')
     due_date = models.DateField(db_index=True,
                                 blank=False,
                                 verbose_name='Крайний срок')
+    category = models.ForeignKey(Category,
+                                 on_delete=models.DO_NOTHING,
+                                 verbose_name='Категория',
+                                 null=True)
     end_date = models.DateField(db_index=True,
                                 blank=True,
                                 null=True,

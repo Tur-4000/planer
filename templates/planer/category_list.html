@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - {{ titte }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ titte }}</h1>
+
+    <a href="{% url 'category_add' %}" class="btn btn-outline-primary mb-2">
+      <span class="icon icon-list-add"></span>
+      Добавить категорию</a>
+    <br>
+
+
+  <table class="table table-sm table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Категория</th>
+        <th>Slug</th>
+        <th>Описание</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+        <tr>
+          <td>
+            <a href=""><span class="icon icon-pencil"></span></a>
+          </td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.slug }}</td>
+          <td>{{ category.description }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

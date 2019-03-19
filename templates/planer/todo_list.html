@@ -31,7 +31,8 @@
         {% if is_ended %}
           <th>Завершена</th>
         {% endif %}
-        <th>Документ</th>
+        <th width="50px"></th>
+        <th>Задача</th>
         <th>Примечание</th>
       </tr>
     </thead>
@@ -40,7 +41,7 @@
       {% for task in todolist %}
 
         <tr {% if today > task.due_date %}
-            class="alert alert-danger"
+              class="table-danger"
             {% endif %}
             >
           <td>
@@ -51,11 +52,11 @@
           {% if is_ended %}
             <td>{{ task.end_date }}</td>
           {% endif %}
-
           <td>
-            <a href="{% url 'task_detail' task.id %}">{{ task.document }}</a>
-            <br>
-            <span class="badge badge-success">документ</span>
+            <span class="badge badge-{{ task.category.get_color_display }}">{{ task.category.name }}</span>
+          </td>
+          <td>
+            <a href="{% url 'task_detail' task.id %}">{{ task.title }}</a>
           </td>
           <td>{{ task.note|default:"" }}</td>
         </tr>

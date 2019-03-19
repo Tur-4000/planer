@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 import datetime
-from .models import Documents, TodoList
-from .forms import DocumentForm, TaskForm, TaskEndForm
+from .models import TodoList, Category
+from .forms import TaskForm, TaskEndForm, CategoryForm
 
 
 def todo_list(request):
@@ -70,42 +70,65 @@ def task_edit(request, task_id):
                   {'title': title, 'form': form})
 
 
-def documents_list(request):
-    documents = Documents.objects.all()
+def category_list(request):
+    titte = 'Справочник категорий'
+    categories = Category.objects.all()
     return render(request,
-                  'planer/list_documents.html',
-                  {'documents': documents})
+                  'planer/category_list.html',
+                  {'categories': categories, 'titte': titte})
 
 
-def document_add(request):
-    title = 'Добавить новый документ'
+def category_add(request):
+    title = 'Добавить категорию'
     if request.method == 'POST':
-        form = DocumentForm(request.POST)
+        form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('category_list')
         else:
-            return render(request, 'planer/add_document.html', {'form': form, 'title': title})
-        return redirect('documents_list')
-    else:
-        form = DocumentForm()
-    return render(request,
-                  'planer/add_document.html',
-                  {'form': form, 'title': title})
+            return render(request, 'planer/category.html',
+                          {'title': title, 'form': form})
+    form = CategoryForm()
+    return render(request, 'planer/category.html',
+                  {'title': title, 'form': form})
 
 
-def document_edit(request, document_id):
-    title = 'Редактировать документ'
-    document = get_object_or_404(Documents, id=document_id)
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, instance=document)
-        if form.is_valid():
-            form.save()
-        else:
-            return render(request,
-                          'planer/add_document.html',
-                          {'form': form, 'title': title, 'document': document})
-        return redirect('documents_list')
-    form = DocumentForm(instance=document)
-    return render(request,
-                  'planer/add_document.html',
-                  {'form': form, 'title': title, 'document': document})
+# def documents_list(request):
+#     documents = Documents.objects.all()
+#     return render(request,
+#                   'planer/list_documents.html',
+#                   {'documents': documents})
+#
+#
+# def document_add(request):
+#     title = 'Добавить новый документ'
+#     if request.method == 'POST':
+#         form = DocumentForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#         else:
+#             return render(request, 'planer/add_document.html', {'form': form, 'title': title})
+#         return redirect('documents_list')
+#     else:
+#         form = DocumentForm()
+#     return render(request,
+#                   'planer/add_document.html',
+#                   {'form': form, 'title': title})
+#
+#
+# def document_edit(request, document_id):
+#     title = 'Редактировать документ'
+#     document = get_object_or_404(Documents, id=document_id)
+#     if request.method == 'POST':
+#         form = DocumentForm(request.POST, instance=document)
+#         if form.is_valid():
+#             form.save()
+#         else:
+#             return render(request,
+#                           'planer/add_document.html',
+#                           {'form': form, 'title': title, 'document': document})
+#         return redirect('documents_list')
+#     form = DocumentForm(instance=document)
+#     return render(request,
+#                   'planer/add_document.html',
+#                   {'form': form, 'title': title, 'document': document})

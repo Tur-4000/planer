@@ -3,28 +3,29 @@ import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Documents, TodoList
+from .models import Documents, TodoList, Category
 
 
-class DocumentForm(forms.ModelForm):
-
-    class Meta:
-        model = Documents
-        fields = ['document_name', 'period', 'description']
-        widgets = {
-            'document_name': forms.TextInput(),
-            'period': forms.Select(),
-            'description': forms.Textarea
-        }
+# class DocumentForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = Documents
+#         fields = ['document_name', 'period', 'description']
+#         widgets = {
+#             'document_name': forms.TextInput(),
+#             'period': forms.Select(),
+#             'description': forms.Textarea
+#         }
 
 
 class TaskForm(forms.ModelForm):
 
     class Meta:
         model = TodoList
-        fields = ['document', 'due_date', 'note']
+        fields = ['title', 'category', 'due_date', 'note']
         widgets = {
-            'document': forms.Select(),
+            'title': forms.TextInput(),
+            'category': forms.Select(),
             'due_date': forms.DateInput(attrs={'type': 'date'}),
             'note': forms.Textarea(attrs={'rows': 4}),
         }
@@ -50,5 +51,19 @@ class TaskEndForm(forms.ModelForm):
         due_date = self.instance.due_date
         today = datetime.date.today()
 
-        if due_date < today and end_date > today:
-            raise ValidationError('Нельзя закрывать просроченные задачи будущим числом')
+        if today > due_date:
+            if end_date > today:
+                raise ValidationError('Нельзя закрывать просроченные задачи будущим числом')
+
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = ['name', 'color', 'description', ]
+        widgets = {
+            'name': forms.TextInput(),
+            'color': forms.Select(),
+            'description': forms.Textarea(attrs={'rows': 3})
+        }
+
