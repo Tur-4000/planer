@@ -47,11 +47,8 @@ class TaskEndForm(forms.ModelForm):
         if not date:
             raise ValidationError('Не установлена дата закрытия задачи')
 
-        if date > datetime.date.today():
+        due_date = self.instance.due_date
+        today = datetime.date.today()
+
+        if due_date > today and due_date < date:
             raise ValidationError('Нельзя закрывать задачи будущим числом')
-
-        start_date = self.instance.due_date
-
-        if date < start_date:
-            raise ValidationError('Задача не может быть закрыта раньше чем начата')
-
