@@ -38,9 +38,16 @@ def task_detail(request, pk):
     if request.method == 'POST':
         form = TaskEndForm(request.POST, instance=task)
         if form.is_valid():
-            task = form.save(commit=False)
-            task.is_ended = True
-            task.save()
+            obj = form.save(commit=False)
+            obj.is_ended = True
+            obj.save(update_fields=['end_date', 'is_ended'])
+            new_task = TodoList.objects.create(
+                title=task.title,
+                category=task.category,
+                due_date=obj.due_date,
+                note=obj.note
+            )
+            new_task.save()
             return redirect('todo_list')
         else:
             return render(request, 'planer/task_detail.html',

@@ -68,6 +68,7 @@ class TodoList(models.Model):
                              verbose_name='Название задачи')
     due_date = models.DateField(db_index=True,
                                 blank=False,
+                                null=False,
                                 verbose_name='Крайний срок')
     category = models.ForeignKey(Category,
                                  on_delete=models.DO_NOTHING,
@@ -89,7 +90,7 @@ class TodoList(models.Model):
         verbose_name_plural = 'Задачи'
 
     def __str__(self):
-        return f'{self.document} - {self.due_date}'
+        return f'{self.title} - {self.due_date}'
 
     def get_absolute_url(self):
         return reverse('task_detail', kwargs={'pk': self.id})
