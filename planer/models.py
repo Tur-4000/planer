@@ -45,13 +45,18 @@ class Documents(models.Model):
 
 class Category(models.Model):
     COLOR = (
-        (1, 'primary'),
-        (2, 'secondary'),
-        (3, 'success'),
-        (4, 'danger'),
-        (5, 'warning'),
-        (6, 'info'),
-        (7, 'dark'),
+        (1, 'blue'),
+        (2, 'black'),
+        (3, 'brown'),
+        (4, 'darkorange'),
+        (5, 'darkviolet'),
+        (6, 'indigo'),
+        (7, 'gray'),
+        (8, 'lightblue'),
+        (9, 'lawngreen'),
+        (10, 'green'),
+        (11, 'gold'),
+        (12, 'red'),
     )
 
     name = models.CharField(db_index=True,

@@ -21,6 +21,16 @@ def tasks_ended(request):
                   {'todolist': todolist, 'title': title, 'is_ended': is_ended})
 
 
+def category_filter(request, slug):
+    today = datetime.date.today()
+    title = 'Скоро'
+    is_ended = False
+    todolist = TodoList.objects.filter(category__slug=slug, is_ended=False).all()
+    return render(request, 'planer/todo_list.html',
+                  {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today})
+
+
+
 def task_detail(request, pk):
     task = get_object_or_404(TodoList, id=pk)
 
@@ -89,6 +99,22 @@ def category_add(request):
             return render(request, 'planer/category.html',
                           {'title': title, 'form': form})
     form = CategoryForm()
+    return render(request, 'planer/category.html',
+                  {'title': title, 'form': form})
+
+
+def category_edit(request, category_id):
+    title = 'Редактировать категорию'
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+        else:
+            return render(request, 'planer/category.html',
+                          {'title': title, 'form': form})
+    form = CategoryForm(instance=category)
     return render(request, 'planer/category.html',
                   {'title': title, 'form': form})
 

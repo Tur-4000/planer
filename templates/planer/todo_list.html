@@ -53,7 +53,9 @@
             <td>{{ task.end_date }}</td>
           {% endif %}
           <td>
-            <span class="badge badge-{{ task.category.get_color_display }}">{{ task.category.name }}</span>
+            <a href="{% url 'category_filter' task.category.slug %}">
+              <span class="badge badge-{{ task.category.get_color_display }}">{{ task.category.name }}</span>
+            </a>
           </td>
           <td>
             <a href="{% url 'task_detail' task.id %}">{{ task.title }}</a>

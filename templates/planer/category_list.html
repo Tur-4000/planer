@@ -26,9 +26,11 @@
       {% for category in categories %}
         <tr>
           <td>
-            <a href=""><span class="icon icon-pencil"></span></a>
+            <a href="{% url 'category_edit' category.id %}"><span class="icon icon-pencil"></span></a>
           </td>
-          <td>{{ category.name }}</td>
+          <td><h4>
+            <span class="badge badge-{{ category.get_color_display }}">{{ category.name }}</span></h4>
+          </td>
           <td>{{ category.slug }}</td>
           <td>{{ category.description }}</td>
       </tr>
