@@ -41,13 +41,14 @@ def task_detail(request, pk):
             obj = form.save(commit=False)
             obj.is_ended = True
             obj.save(update_fields=['end_date', 'is_ended'])
-            new_task = TodoList.objects.create(
-                title=task.title,
-                category=task.category,
-                due_date=obj.due_date,
-                note=obj.note
-            )
-            new_task.save()
+            if 'create_new' in request.POST:
+                new_task = TodoList.objects.create(
+                    title=task.title,
+                    category=task.category,
+                    due_date=obj.due_date,
+                    note=obj.note
+                )
+                new_task.save()
             return redirect('todo_list')
         else:
             return render(request, 'planer/task_detail.html',
