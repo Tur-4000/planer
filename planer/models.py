@@ -3,8 +3,6 @@ from django.shortcuts import reverse
 from django.utils.text import slugify as django_slugify
 
 
-# from django.template.defaultfilters import slugify as django_slugify
-
 alphabet = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
             'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
             'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'yu',
@@ -14,33 +12,6 @@ alphabet = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', '�
 def gen_slug(s):
     new_slug = django_slugify(''.join(alphabet.get(w, w) for w in s.lower()), allow_unicode=True)
     return new_slug
-
-
-class Documents(models.Model):
-    PERIOD = (
-        (1, 'Неделя'),
-        (2, 'Месяц'),
-        (3, 'Квартал'),
-        (4, 'Год'),
-    )
-    document_name = models.CharField(max_length=256,
-                                     db_index=True,
-                                     blank=False,
-                                     verbose_name='Название документа')
-    period = models.PositiveSmallIntegerField(choices=PERIOD,
-                                              verbose_name='Период')
-    description = models.TextField(blank=True, verbose_name='Описание')
-
-    class Meta:
-        verbose_name = 'Документ'
-        verbose_name_plural = 'Документы'
-        ordering = ['id']
-
-    def __str__(self):
-        return f'{self.document_name}'
-
-    def get_absolute_url(self):
-        return reverse('document_detail', kwargs={'pk': self.id})
 
 
 class Category(models.Model):

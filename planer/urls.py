@@ -13,7 +13,4 @@ urlpatterns = [
     path('category/list/', views.category_list, name='category_list'),
     path('category/add/', views.category_add, name='category_add'),
     path('category/edit/<int:category_id>/', views.category_edit, name='category_edit'),
-    # path('documents_list/', views.documents_list, name='documents_list'),
-    # path('document/add/', views.document_add, name='document_add'),
-    # path('document/edit/<int:document_id>/', views.document_edit, name='document_edit'),
 ]

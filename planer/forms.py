@@ -3,19 +3,7 @@ import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Documents, TodoList, Category
-
-
-# class DocumentForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = Documents
-#         fields = ['document_name', 'period', 'description']
-#         widgets = {
-#             'document_name': forms.TextInput(),
-#             'period': forms.Select(),
-#             'description': forms.Textarea
-#         }
+from .models import TodoList, Category
 
 
 class TaskForm(forms.ModelForm):
