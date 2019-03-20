@@ -7,3 +7,53 @@
     font-size: 1.5em;
     font-weight: bold;
 }
+
+
+.badge-red {
+    color: #ffffff;
+    background-color: #dc3545;
+}
+.badge-green {
+    color: #ffffff;
+    background-color: #28a745;
+}
+.badge-blue {
+    color: #ffffff;
+    background-color: #007bff;
+}
+.badge-lightblue {
+    color: #ffffff;
+    background-color: #17a2b8;
+}
+.badge-gold {
+    color: #ffffff;
+    background-color: gold;
+}
+.badge-darkorange {
+    color: #ffffff;
+    background-color: darkorange;
+}
+.badge-indigo {
+    color: #ffffff;
+    background-color: indigo;
+}
+.badge-lawngreen {
+    color: #ffffff;
+    background-color: lawngreen;
+}
+.badge-darkviolet {
+    color: #ffffff;
+    background-color: darkviolet;
+}
+.badge-black {
+    color: #ffffff;
+    background-color: black;
+}
+.badge-brown {
+    color: #ffffff;
+    background-color: saddlebrown;
+}
+.badge-gray {
+color: #ffffff;
+background-color: #6c757d;
+}

@@ -14,7 +14,8 @@
   <div class="col-md-6">
     <div class="jumbotron">
 
-      <h1 class="display-4">{{ task.document }}</h1>
+      <h1 class="display-4">{{ task.title }}</h1>
+      <h3><span class="badge badge-{{ task.category.get_color_display }}">{{ task.category.name }}</span></h3>
       <p>{{ task.document.description }}</p>
       <p class="lead"><strong>Срок завершения:</strong> {{ task.due_date }}</p>
       <p class="lead"><strong>Дата закрытия:</strong> {{ task.end_date|default:"В работе" }}</p>
