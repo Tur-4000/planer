@@ -16,7 +16,7 @@
 
       <h1 class="display-4">{{ task.title }}</h1>
       <h3><span class="badge badge-{{ task.category.get_color_display }}">{{ task.category.name }}</span></h3>
-      <p>{{ task.document.description }}</p>
+
       <p class="lead"><strong>Срок завершения:</strong> {{ task.due_date }}</p>
       <p class="lead"><strong>Дата закрытия:</strong> {{ task.end_date|default:"В работе" }}</p>
       <p>{{ task.note|default:"" }}</p>
@@ -31,7 +31,7 @@
         <div class="btn-group mt-1" role="group">
           <a href="{% url 'todo_list' %}" class="btn btn-info">
             <span class="icon icon-reply"></span> Назад к задачам</a>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-warning">
             <span class="icon icon-floppy"></span>
             Сохранить</button>
         </div>
@@ -41,4 +41,34 @@
   </div>
   <div class="col-md-3"></div>
   </div>
+{% endblock %}
+
+{% block script %}
+  {{ block.super }}
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <script>
+    $( function() {
+      $( "#datepicker" ).datepicker({
+          firstDay: 1,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ],
+          monthNamesShort: [ "Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ],
+          dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" ]
+      });
+    } );
+    $( function() {
+      $( "#due_date" ).datepicker({
+          firstDay: 1,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ],
+          monthNamesShort: [ "Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ],
+          dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" ]
+      });
+    } );
+  </script>
+
 {% endblock %}

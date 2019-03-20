@@ -14,7 +14,7 @@ class TaskForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(),
             'category': forms.Select(),
-            'due_date': forms.DateInput(attrs={'type': 'date'}),
+            'due_date': forms.DateInput(attrs={'id': 'datepicker'}),
             'note': forms.Textarea(attrs={'rows': 4}),
         }
 
@@ -23,9 +23,14 @@ class TaskEndForm(forms.ModelForm):
 
     class Meta:
         model = TodoList
-        fields = ['end_date', ]
+        fields = ['end_date', 'due_date', 'note']
+        labels = {
+            'due_date': 'Следующий крайний срок'
+        }
         widgets = {
-            'end_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'id': 'datepicker'}),
+            'due_date': forms.DateInput(attrs={'id': 'due_date'}),
+            'note': forms.Textarea(attrs={'rows': 3}),
         }
 
     def clean(self):
