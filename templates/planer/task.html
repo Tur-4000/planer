@@ -9,7 +9,7 @@
 
 {% block content %}
 
-  <div class="container col-6">
+  <div class="container col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <h3>{{ title }}</h3>
 
     <form method="post" class="">
@@ -17,12 +17,12 @@
 
       {{ form|crispy }}
 
-      <div class="btn-group mt-1" role="group">
-        <a href="{% url 'todo_list' %}" class="btn btn-info">
-          <span class="icon icon-reply"></span> Назад к задачам</a>
-        <button type="submit" class="btn btn-primary">
+      <div class="mt-1" role="group">
+        <button type="submit" class="btn btn-warning">
           <span class="icon icon-floppy"></span>
           Сохранить</button>
+        <a href="{% url 'todo_list' %}" class="btn btn-info float-right">
+          <span class="icon icon-reply"></span> Назад к задачам</a>
       </div>
     </form>
   </div>

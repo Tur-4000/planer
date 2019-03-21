@@ -1,0 +1,1 @@
+start cmd.exe /K .\venv\Scripts\activate.bat
