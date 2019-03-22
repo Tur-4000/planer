@@ -1,7 +1,29 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-{% block content %}
-{% endblock %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-{% block scripts %}
-{% endblock %}
+{#  Custom styles for this template#}
+  <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+
+</head>
+<body>
+
+  <div class="container col-12 mt-3">
+    <div class="row">
+      <div class="col-12">
+        {% block content %}
+          There is no any content for you
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
