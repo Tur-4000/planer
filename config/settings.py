@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '192.168.50.10', ]
 
 INSTALLED_APPS = [
     'planer',
+    'user',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -134,5 +135,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'todo_list'
+LOGOUT_REDIRECT_URL = 'todo_list'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

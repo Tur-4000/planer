@@ -1,11 +1,13 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TaskForm, TaskEndForm, CategoryForm
 from .models import TodoList, Category
 
 
+@login_required
 def todo_list(request):
     today = datetime.date.today()
     title = 'Скоро'
@@ -15,6 +17,7 @@ def todo_list(request):
                   {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today})
 
 
+@login_required
 def tasks_ended(request):
     title = 'Закрытые задачи'
     is_ended = True
@@ -23,6 +26,7 @@ def tasks_ended(request):
                   {'todolist': todolist, 'title': title, 'is_ended': is_ended})
 
 
+@login_required
 def category_filter(request, slug):
     today = datetime.date.today()
     title = 'Скоро'
@@ -32,6 +36,7 @@ def category_filter(request, slug):
                   {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today})
 
 
+@login_required
 def task_detail(request, pk):
     task = get_object_or_404(TodoList, id=pk)
 
@@ -58,6 +63,7 @@ def task_detail(request, pk):
                   {'task': task, 'form': form})
 
 
+@login_required
 def task_add(request):
     title = 'Добавить задачу'
 
@@ -73,6 +79,7 @@ def task_add(request):
         return render(request, 'planer/task.html', {'title': title, 'form': form})
 
 
+@login_required
 def task_edit(request, task_id):
     title = 'Редактировать задачу'
     task = get_object_or_404(TodoList, id=task_id)
@@ -89,6 +96,7 @@ def task_edit(request, task_id):
                   {'title': title, 'form': form})
 
 
+@login_required
 def category_list(request):
     titte = 'Справочник категорий'
     categories = Category.objects.all()
@@ -97,6 +105,7 @@ def category_list(request):
                   {'categories': categories, 'titte': titte})
 
 
+@login_required
 def category_add(request):
     title = 'Добавить категорию'
     if request.method == 'POST':
@@ -112,6 +121,7 @@ def category_add(request):
                   {'title': title, 'form': form})
 
 
+@login_required
 def category_edit(request, category_id):
     title = 'Редактировать категорию'
     category = get_object_or_404(Category, id=category_id)
