@@ -29,16 +29,16 @@
         {{ form|crispy }}
 
         <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" name="create_new" value="True" id="create_new">
+          <input type="checkbox" class="form-check-input" name="create_new" value="True" id="create_new" checked>
           <label for="create_new" class="form-check-label">Создать новую задачу</label><br>
         </div>
 
-        <div class="btn-group mt-1" role="group">
-          <a href="{% url 'todo_list' %}" class="btn btn-info">
-            <span class="icon icon-reply"></span> Назад к задачам</a>
+        <div class="mt-1" role="group">
           <button type="submit" class="btn btn-warning">
             <span class="icon icon-floppy"></span>
             Сохранить</button>
+          <a href="{% url 'todo_list' %}" class="btn btn-info float-right">
+            <span class="icon icon-reply"></span> Назад к задачам</a>
         </div>
       </form>
 
