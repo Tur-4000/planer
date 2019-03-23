@@ -42,12 +42,14 @@
 
         <tr {% if today > task.due_date %}
               class="table-danger"
+            {% elif seven_days > task.due_date %}
+              class="table-success"
             {% endif %}
             >
           <td>
             <a href="{% url 'task_edit' task.id %}"><span class="icon icon-pencil"></span></a>
           </td>
-          <td>{{ task.due_date }}</td>
+          <td>{{ task.due_date|date:"(D) d F Y"  }}</td>
 
           {% if is_ended %}
             <td>{{ task.end_date }}</td>

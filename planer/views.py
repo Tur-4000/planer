@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,12 +9,14 @@ from .models import TodoList, Category
 
 @login_required
 def todo_list(request):
-    today = datetime.date.today()
+    today = date.today()
+    seven_days = today + timedelta(days=6)
     title = 'Скоро'
     is_ended = False
     todolist = TodoList.objects.filter(is_ended=False).order_by('due_date')
     return render(request, 'planer/todo_list.html',
-                  {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today})
+                  {'todolist': todolist, 'title': title,
+                   'is_ended': is_ended, 'today': today, 'seven_days': seven_days})
 
 
 @login_required
