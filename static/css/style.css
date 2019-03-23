@@ -57,3 +57,37 @@
 color: #ffffff;
 background-color: #6c757d;
 }
+
+.today {
+    background-color: #fecccd;
+}
+.filled {
+    background-color: #fff6c1;
+}
+table.month {
+    border-collapse: collapse;
+}
+table.month th {
+    border: 1px solid gray;
+    text-align: center;
+}
+table.month td {
+    width: 200px;
+    height: 100px;
+    text-align: right;
+    vertical-align: top;
+    padding-right: 5px;
+    border: 1px solid gray;
+}
+table.month td ul {
+    list-style-type: none;
+    margin-left: 4px;
+    padding: 0px;
+    text-align: left;
+}
+table.month td ul li {
+    border: 1px dotted #777777;
+    border-radius: 3px;
+    padding-left: 3px;
+    background-color: lightgreen;
+}
