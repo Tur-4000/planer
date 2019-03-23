@@ -30,12 +30,14 @@ def tasks_ended(request):
 
 @login_required
 def category_filter(request, slug):
-    today = datetime.date.today()
+    today = date.today()
+    seven_days = today + timedelta(days=6)
     title = 'Скоро'
     is_ended = False
-    todolist = TodoList.objects.filter(category__slug=slug, is_ended=False).all()
+    todolist = TodoList.objects.filter(category__slug=slug, is_ended=False).all().order_by('due_date')
     return render(request, 'planer/todo_list.html',
-                  {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today})
+                  {'todolist': todolist, 'title': title,
+                   'is_ended': is_ended, 'today': today, 'seven_days': seven_days})
 
 
 @login_required
