@@ -150,10 +150,13 @@ def category_edit(request, category_id):
                   {'title': title, 'form': form, 'today': today})
 
 
+@login_required
 def calendar(request, year, month):
     today = date.today()
+    prev = today + timedelta(days=-30)
+    next = today + timedelta(days=30)
     my_tasks = TodoList.objects.order_by('due_date').filter(
         due_date__year=year, due_date__month=month, is_ended=False)
     cal = WorkoutCalendar(my_tasks).formatmonth(year, month)
-    context = {'calendar': mark_safe(cal), 'today': today}
-    return render_to_response('planer/calendar.html', context)
+    context = {'calendar': mark_safe(cal), 'today': today, 'prev': prev, 'next': next}
+    return render(request, 'planer/calendar.html', context)

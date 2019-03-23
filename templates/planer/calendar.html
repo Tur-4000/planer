@@ -6,6 +6,18 @@
 
     <div class="col-12">
       {{ calendar }}
+
+      <div class="row mt-3">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <a href="{% url 'calendar' prev.year prev.month %}" class="btn btn-outline-secondary"><< {{ prev|date:'M Y' }}</a>
+          <a href="{% url 'calendar' today.year today.month %}" class="btn btn-outline-secondary">{{ today|date:'M Y' }}</a>
+          <a href="{% url 'calendar' next.year next.month %}" class="btn btn-outline-secondary">{{ next|date:'M Y' }} >></a>
+        </div>
+        <div class="col-4"></div>
+
+      </div>
+
     </div>
 
   </div>
