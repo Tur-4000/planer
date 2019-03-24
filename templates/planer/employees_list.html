@@ -9,7 +9,7 @@
 
   <h1>{{ titte }}</h1>
 
-    <a href="" class="btn btn-outline-primary mb-2">
+    <a href="{% url 'employee_add' %}" class="btn btn-outline-primary mb-2">
       <span class="icon icon-user-add"></span>
       Добавить сотрудника</a>
     <br>
@@ -24,17 +24,17 @@
       </tr>
     </thead>
     <tbody>
-      {% for employe in employees %}
+      {% for employee in employees %}
         <tr>
           <td>
             <a href=""><span class="icon icon-pencil"></span></a>
           </td>
           <td>
-            {{ employe.last_name }} {{ employe.first_name }} {{ employe.patronym }}
+            {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronym }}
           </td>
-          <td>{{ employe.rank }}</td>
+          <td>{{ employee.rank }}</td>
           <td>
-            {% if employe.is_doctor %}
+            {% if employee.is_doctor %}
               Врач
             {% endif %}
           </td>

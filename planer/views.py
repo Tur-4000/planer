@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 
-from .forms import TaskForm, TaskEndForm, CategoryForm
+from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm
 from .models import TodoList, Category, Employees
 from .utils import TaskCalendar
 
@@ -176,3 +176,19 @@ def employees_list(request):
     context = {'title': title, 'employees': employees, 'today': today}
     return render(request, 'planer/employees_list.html', context)
 
+
+@login_required
+def employee_add(request):
+    title = 'Добавить сотрудника'
+    today = date.today()
+
+    if request.method == 'POST':
+        form = EmployeesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('employees_list')
+    else:
+        form = EmployeesForm()
+
+    context = {'title': title, 'today': today, 'form': form}
+    return render(request, 'planer/employee.html', context)

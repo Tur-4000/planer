@@ -121,6 +121,7 @@ class Employees(models.Model):
                                   null=False)
     patronym = models.CharField(verbose_name='Отчество',
                                 max_length=32,
+                                blank=True,
                                 null=True)
     rank = models.CharField(verbose_name='Должность',
                             max_length=64,
