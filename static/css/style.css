@@ -8,6 +8,11 @@
     font-weight: bold;
 }
 
+.thead-indigo {
+    color: #ffffff;
+    background-color: indigo;
+}
+
 
 .badge-red {
     color: #ffffff;

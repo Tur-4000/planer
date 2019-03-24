@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+
+  <a href="{% url 'referat_add' %}" class="btn btn-outline-primary mb-2">
+    <span class="icon icon-plus-squared"></span>
+    Добавить реферат</a>
+  <br>
+
+  <table class="table table-sm table-hover">
+    <thead class="thead-indigo">
+      <tr>
+        <th></th>
+        <th>Реферат</th>
+        <th>Для врача?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for referat in referats %}
+        <tr>
+          <td>
+            <a href="{% url 'referat_edit' referat.id %}"><span class="icon icon-pencil"></span></a>
+          </td>
+          <td>
+            {{ referat.title }}
+          </td>
+          <td>
+            {% if referat.for_doctor %}
+               <span class="badge badge-success"><span class="icon icon-check"></span></span>
+            {% endif %}
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

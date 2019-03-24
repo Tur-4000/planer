@@ -14,4 +14,11 @@ urlpatterns = [
     path('category/add/', views.category_add, name='category_add'),
     path('category/edit/<int:category_id>/', views.category_edit, name='category_edit'),
     path('calendar/<int:year>/<int:month>/', views.calendar, name='calendar'),
+    path('employees/list/', views.employees_list, name='employees_list'),
+    path('employee/add/', views.employee_add, name='employee_add'),
+    path('employee/edit/<int:employee_id>/', views.employee_edit, name='employee_edit'),
+    path('referats/list/', views.referats_list, name='referats_list'),
+    path('referat/add/', views.referat_add, name='referat_add'),
+    path('referat/edit/<int:referat_id>/', views.referat_edit, name='referat_edit'),
+
 ]

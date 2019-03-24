@@ -106,3 +106,53 @@ class TodoList(models.Model):
 
     def get_absolute_url(self):
         return reverse('task_detail', kwargs={'pk': self.id})
+
+
+class Employees(models.Model):
+    last_name = models.CharField(verbose_name='Фамилия',
+                                 max_length=32,
+                                 db_index=True,
+                                 blank=False,
+                                 null=False)
+    first_name = models.CharField(verbose_name='Имя',
+                                  max_length=32,
+                                  db_index=True,
+                                  blank=False,
+                                  null=False)
+    patronym = models.CharField(verbose_name='Отчество',
+                                max_length=32,
+                                blank=True,
+                                null=True)
+    rank = models.CharField(verbose_name='Должность',
+                            max_length=64,
+                            blank=False,
+                            null=False)
+    is_doctor = models.BooleanField(db_index=True,
+                                    verbose_name='Врач',
+                                    default=False)
+
+    class Meta:
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
+
+    def __str__(self):
+        return f'{self.last_name} {self.first_name}'
+
+
+class Referats(models.Model):
+    title = models.CharField(verbose_name='Название',
+                             max_length=256,
+                             db_index=True,
+                             unique=True,
+                             blank=False,
+                             null=False)
+    for_doctor = models.BooleanField(verbose_name='Для врачей',
+                                     db_index=True,
+                                     default=False)
+
+    class Meta:
+        verbose_name = 'Реферат'
+        verbose_name_plural = 'Рефераты'
+
+    def __str__(self):
+        return f'{self.title}'
