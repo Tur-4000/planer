@@ -20,5 +20,5 @@ urlpatterns = [
     path('referats/list/', views.referats_list, name='referats_list'),
     path('referat/add/', views.referat_add, name='referat_add'),
     path('referat/edit/<int:referat_id>/', views.referat_edit, name='referat_edit'),
-
+    path('accredits/list/', views.accredits_list, name='accredits_list'),
 ]

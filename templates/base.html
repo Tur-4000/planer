@@ -35,10 +35,15 @@
               <span class="icon icon-list"></span>
               Список задач</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item mr-2">
             <a href="{% url 'calendar' today.year today.month %}" class="nav-link btn btn-outline-primary">
               <span class="icon icon-calendar"></span>
               Календарь</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'accredits_list' %}" class="nav-link btn btn-outline-primary">
+              <span class="icon icon-trophy"></span>
+              Аккредитации</a>
           </li>
         </ul>
 

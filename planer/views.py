@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 
 from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm
-from .models import TodoList, Category, Employees, Referats
+from .models import TodoList, Category, Employees, Referats, Accredits
 from .utils import TaskCalendar
 
 
@@ -247,3 +247,12 @@ def referat_edit(request, referat_id):
         form = ReferatForm(instance=referat)
     context = {'title': title, 'today': today, 'form': form}
     return render(request, 'planer/referat.html', context)
+
+
+@login_required
+def accredits_list(request):
+    title = 'Список аккредитаций'
+    today = date.today()
+    accredits = Accredits.objects.all()
+    context = {'title': title, 'today': today, 'accredits': accredits}
+    return render(request, 'planer/accredits_list.html', context)
