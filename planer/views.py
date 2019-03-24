@@ -271,3 +271,24 @@ def accredit_add(request):
         form = AccreditForm()
     context = {'title': title, 'today': today, 'form': form}
     return render(request, 'planer/accredit.html', context)
+
+
+@login_required
+def accredit_edit(request, accredit_id):
+    title = 'Редактировать аккредитацию'
+    today = date.today()
+    accredit = get_object_or_404(Accredits, id=accredit_id)
+    if request.method == 'POST':
+        form = AccreditForm(request.POST, instance=accredit)
+        if form.is_valid():
+            form.save()
+            return redirect('accredits_list')
+    else:
+        form = AccreditForm(instance=accredit)
+    context = {'title': title, 'today': today, 'form': form}
+    return render(request, 'planer/accredit.html', context)
+
+
+@login_required
+def accredit_detail(request, accredit_id):
+    pass

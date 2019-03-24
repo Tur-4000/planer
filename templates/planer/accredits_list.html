@@ -26,7 +26,7 @@
       {% for accredit in accredits %}
         <tr>
           <td>
-            <a href=""><span class="icon icon-pencil"></span></a>
+            <a href="{% url 'accredit_edit' accredit.id %}"><span class="icon icon-pencil"></span></a>
           </td>
           <td>{{ accredit.title }}</td>
           <td>{{ accredit.first_year }}</td>
