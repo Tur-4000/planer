@@ -27,10 +27,10 @@
       {% for employee in employees %}
         <tr>
           <td>
-            <a href=""><span class="icon icon-pencil"></span></a>
+            <a href="{% url 'employee_edit' employee.id %}"><span class="icon icon-pencil"></span></a>
           </td>
           <td>
-            {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronym }}
+            {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronym|default:"" }}
           </td>
           <td>{{ employee.rank }}</td>
           <td>

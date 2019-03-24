@@ -192,3 +192,18 @@ def employee_add(request):
 
     context = {'title': title, 'today': today, 'form': form}
     return render(request, 'planer/employee.html', context)
+
+
+def employee_edit(request, employee_id):
+    title = 'Редактировать сотрудника'
+    today = date.today()
+    employee = get_object_or_404(Employees, id=employee_id)
+    if request.method == 'POST':
+        form = EmployeesForm(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+            return redirect('employees_list')
+    else:
+        form = EmployeesForm(instance=employee)
+    context = {'title': title, 'today': today, 'form': form}
+    return render(request, 'planer/employee.html', context)

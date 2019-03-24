@@ -15,6 +15,7 @@ urlpatterns = [
     path('category/edit/<int:category_id>/', views.category_edit, name='category_edit'),
     path('calendar/<int:year>/<int:month>/', views.calendar, name='calendar'),
     path('employees/list/', views.employees_list, name='employees_list'),
-    path('employee/add/', views.employee_add, name='employee_add')
+    path('employee/add/', views.employee_add, name='employee_add'),
+    path('employee/edit/<int:employee_id>/', views.employee_edit, name='employee_edit'),
 
 ]
