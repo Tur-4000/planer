@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from dateutil.relativedelta import relativedelta
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
@@ -153,10 +154,13 @@ def category_edit(request, category_id):
 @login_required
 def calendar(request, year, month):
     today = date.today()
-    prev = today + timedelta(days=-30)
-    next = today + timedelta(days=30)
+    day = date(year, month, 1)
+    prev = day + relativedelta(months=-1)
+    next = day + relativedelta(months=+1)
     my_tasks = TodoList.objects.order_by('due_date').filter(
         due_date__year=year, due_date__month=month, is_ended=False)
+
     cal = TaskCalendar(my_tasks).formatmonth(year, month)
     context = {'calendar': mark_safe(cal), 'today': today, 'prev': prev, 'next': next}
+
     return render(request, 'planer/calendar.html', context)
