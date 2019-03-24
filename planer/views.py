@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 
-from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm
+from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, AccreditForm
 from .models import TodoList, Category, Employees, Referats, Accredits
 from .utils import TaskCalendar
 
@@ -256,3 +256,18 @@ def accredits_list(request):
     accredits = Accredits.objects.all()
     context = {'title': title, 'today': today, 'accredits': accredits}
     return render(request, 'planer/accredits_list.html', context)
+
+
+@login_required
+def accredit_add(request):
+    title = 'Добавить аккредитацию'
+    today = date.today()
+    if request.method == 'POST':
+        form = AccreditForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('accredits_list')
+    else:
+        form = AccreditForm()
+    context = {'title': title, 'today': today, 'form': form}
+    return render(request, 'planer/accredit.html', context)

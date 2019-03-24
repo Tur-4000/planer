@@ -177,7 +177,7 @@ class Accredits(models.Model):
     class Meta:
         verbose_name = 'Аккредитация'
         verbose_name_plural = 'Аккредитации'
-        ordering = ('first_year', )
+        ordering = ('-first_year', )
 
     def __str__(self):
         return f'{self.title}'
