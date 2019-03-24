@@ -129,7 +129,7 @@ class Employees(models.Model):
                             null=False)
     is_doctor = models.BooleanField(db_index=True,
                                     verbose_name='Врач',
-                                    default=True)
+                                    default=False)
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -138,3 +138,21 @@ class Employees(models.Model):
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
 
+
+class Referats(models.Model):
+    title = models.CharField(verbose_name='Название',
+                             max_length=256,
+                             db_index=True,
+                             unique=True,
+                             blank=False,
+                             null=False)
+    for_doctor = models.BooleanField(verbose_name='Для врачей',
+                                     db_index=True,
+                                     default=False)
+
+    class Meta:
+        verbose_name = 'Реферат'
+        verbose_name_plural = 'Рефераты'
+
+    def __str__(self):
+        return f'{self.title}'

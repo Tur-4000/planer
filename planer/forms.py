@@ -3,7 +3,7 @@ import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import TodoList, Category, Employees
+from .models import TodoList, Category, Employees, Referats
 
 
 class TaskForm(forms.ModelForm):
@@ -72,4 +72,15 @@ class EmployeesForm(forms.ModelForm):
             'patronym': forms.TextInput(attrs={'placeholder': 'Отчество'}),
             'rank': forms.TextInput(attrs={'placeholder': 'Должность'}),
             'is_doctor': forms.CheckboxInput()
+        }
+
+
+class ReferatForm(forms.ModelForm):
+
+    class Meta:
+        model = Referats
+        fields = ['title', 'for_doctor']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Название'}),
+            'for_doctor': forms.CheckboxInput()
         }

@@ -7,7 +7,7 @@
 
 {% block content %}
 
-  <h1>{{ titte }}</h1>
+  <h1>{{ title }}</h1>
 
     <a href="{% url 'employee_add' %}" class="btn btn-outline-primary mb-2">
       <span class="icon icon-user-add"></span>
@@ -15,7 +15,7 @@
     <br>
 
   <table class="table table-sm table-hover">
-    <thead class="thead-dark">
+    <thead class="thead-indigo">
       <tr>
         <th></th>
         <th>Ф.И.О.</th>
@@ -35,7 +35,7 @@
           <td>{{ employee.rank }}</td>
           <td>
             {% if employee.is_doctor %}
-              Врач
+              <span class="badge badge-success"><span class="icon icon-check"></span></span>
             {% endif %}
           </td>
       </tr>

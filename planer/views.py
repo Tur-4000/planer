@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 
-from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm
-from .models import TodoList, Category, Employees
+from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm
+from .models import TodoList, Category, Employees, Referats
 from .utils import TaskCalendar
 
 
@@ -207,3 +207,43 @@ def employee_edit(request, employee_id):
         form = EmployeesForm(instance=employee)
     context = {'title': title, 'today': today, 'form': form}
     return render(request, 'planer/employee.html', context)
+
+
+@login_required
+def referats_list(request):
+    title = 'Справочник рефератов'
+    today = date.today()
+    referats = Referats.objects.all()
+    context = {'title': title, 'today': today, 'referats': referats}
+    return render(request, 'planer/referats_list.html', context)
+
+
+@login_required
+def referat_add(request):
+    title = 'Добавить реферат'
+    today = date.today()
+    if request.method == 'POST':
+        form = ReferatForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('referats_list')
+    else:
+        form = ReferatForm()
+    context = {'title': title, 'today': today, 'form': form}
+    return render(request, 'planer/referat.html', context)
+
+
+@login_required
+def referat_edit(request, referat_id):
+    title = 'Добавить реферат'
+    today = date.today()
+    referat = get_object_or_404(Referats, id=referat_id)
+    if request.method == 'POST':
+        form = ReferatForm(request.POST, instance=referat)
+        if form.is_valid():
+            form.save()
+            return redirect('referats_list')
+    else:
+        form = ReferatForm(instance=referat)
+    context = {'title': title, 'today': today, 'form': form}
+    return render(request, 'planer/referat.html', context)
