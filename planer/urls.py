@@ -20,5 +20,9 @@ urlpatterns = [
     path('referats/list/', views.referats_list, name='referats_list'),
     path('referat/add/', views.referat_add, name='referat_add'),
     path('referat/edit/<int:referat_id>/', views.referat_edit, name='referat_edit'),
-
+    path('accredits/list/', views.accredits_list, name='accredits_list'),
+    path('accredit/add/', views.accredit_add, name='accredit_add'),
+    path('accredit/edit/<int:accredit_id>/', views.accredit_edit, name='accredit_edit'),
+    path('accredit/detail/<int:accredit_id>/', views.accredit_detail, name='accredit_detail'),
+    path('referat/assign/<int:accredit_id>/', views.assign_referat, name='assign_referat'),
 ]

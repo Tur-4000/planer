@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ accredit.title }}
+{% endblock %}
+
+
+{% block content %}
+
+  <h1>{{ accredit.title }}</h1>
+
+{# таблица рефератов первого года аккредитации #}
+  <table class="table table-sm table-hover">
+    <thead class="thead-indigo">
+    <tr>
+      <th>
+        <a href="{% url 'assign_referat' accredit.id %}" class="btn btn-sm btn-light">Назначить реферат</a>
+      </th>
+      <th colspan="12">{{ accredit.first_year }}</th>
+    </tr>
+      <tr>
+        <th>Сотрудник</th>
+        <th>Январь</th>
+        <th>Февраль</th>
+        <th>Март</th>
+        <th>Апрель</th>
+        <th>Май</th>
+        <th>Июнь</th>
+        <th>Июль</th>
+        <th>Август</th>
+        <th>Сентябрь</th>
+        <th>Октябрь</th>
+        <th>Ноябрь</th>
+        <th>Декабрь</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in accredit.employee.all %}
+
+        <tr>
+          <td>{{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+      {% endfor %}      
+    </tbody>
+  </table>
+
+{# таблица рефератов второго года аккредитации #}
+  <table class="table table-sm table-hover">
+    <thead class="thead-indigo">
+    <tr>
+      <th>
+        <a href="" class="btn btn-sm btn-light">Назначить реферат</a>
+      </th>
+      <th colspan="12">{{ accredit.first_year|add:"1" }}</th>
+    </tr>
+      <tr>
+        <th>Сотрудник</th>
+        <th>Январь</th>
+        <th>Февраль</th>
+        <th>Март</th>
+        <th>Апрель</th>
+        <th>Май</th>
+        <th>Июнь</th>
+        <th>Июль</th>
+        <th>Август</th>
+        <th>Сентябрь</th>
+        <th>Октябрь</th>
+        <th>Ноябрь</th>
+        <th>Декабрь</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in accredit.employee.all %}
+
+        <tr>
+          <td>{{ employee.last_name }} {{ employee.first_name|first }}. </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+
+{# таблица рефератов третьего года аккредитации #}
+  <table class="table table-sm table-hover">
+    <thead class="thead-indigo">
+    <tr>
+      <th>
+        <a href="" class="btn btn-sm btn-light">Назначить реферат</a>
+      </th>
+      <th colspan="12">{{ accredit.first_year|add:"2" }}</th>
+    </tr>
+      <tr>
+        <th>Сотрудник</th>
+        <th>Январь</th>
+        <th>Февраль</th>
+        <th>Март</th>
+        <th>Апрель</th>
+        <th>Май</th>
+        <th>Июнь</th>
+        <th>Июль</th>
+        <th>Август</th>
+        <th>Сентябрь</th>
+        <th>Октябрь</th>
+        <th>Ноябрь</th>
+        <th>Декабрь</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in accredit.employee.all %}
+
+        <tr>
+          <td>{{ employee.last_name }} {{ employee.first_name|first }}. </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
