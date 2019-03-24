@@ -156,3 +156,41 @@ class Referats(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+class Accredits(models.Model):
+    title = models.CharField(verbose_name='Название (период)',
+                             db_index=True,
+                             max_length=128,
+                             blank=False,
+                             null=False,
+                             unique=True)
+    first_year = models.PositiveSmallIntegerField(verbose_name='Первый год',
+                                                  unique=True)
+    referat = models.ManyToManyField(Referats,
+                                     through='SetReferat',
+                                     related_name='assigned_referat')
+    employee = models.ManyToManyField(Employees,
+                                      through='SetReferat',
+                                      related_name='assigned_employee')
+
+    class Meta:
+        verbose_name = 'Аккредитация'
+        verbose_name_plural = 'Аккредитации'
+        ordering = ('first_year', )
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class SetReferat(models.Model):
+    referat = models.ForeignKey(Referats, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employees, on_delete=models.DO_NOTHING)
+    accredit = models.ForeignKey(Accredits, on_delete=models.DO_NOTHING)
+    date = models.DateField(verbose_name='Дата реферата')
+
+    class Meta:
+        unique_together = ('referat', 'employee', 'accredit')
+
+    def __str__(self):
+        return f'{self.accredit} {self.employee} {self.referat} {self.date}'
