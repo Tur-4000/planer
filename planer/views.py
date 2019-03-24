@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404, render_to_resp
 from django.utils.safestring import mark_safe
 
 from .forms import TaskForm, TaskEndForm, CategoryForm
-from .models import TodoList, Category, WorkoutCalendar
+from .models import TodoList, Category, TaskCalendar
 
 
 @login_required
@@ -157,6 +157,6 @@ def calendar(request, year, month):
     next = today + timedelta(days=30)
     my_tasks = TodoList.objects.order_by('due_date').filter(
         due_date__year=year, due_date__month=month, is_ended=False)
-    cal = WorkoutCalendar(my_tasks).formatmonth(year, month)
+    cal = TaskCalendar(my_tasks).formatmonth(year, month)
     context = {'calendar': mark_safe(cal), 'today': today, 'prev': prev, 'next': next}
     return render(request, 'planer/calendar.html', context)

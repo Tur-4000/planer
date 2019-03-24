@@ -111,29 +111,29 @@ class TodoList(models.Model):
     #     return self.due_date.day
 
 
-class WorkoutCalendar(HTMLCalendar):
+class TaskCalendar(HTMLCalendar):
 
-    def __init__(self, workouts):
-        super(WorkoutCalendar, self).__init__()
-        self.workouts = self.group_by_day(workouts)
+    def __init__(self, tasks):
+        super(TaskCalendar, self).__init__()
+        self.tasks = self.group_by_day(tasks)
 
     def formatday(self, day, weekday):
         if day != 0:
             cssclass = self.cssclasses[weekday]
             if date.today() == date(self.year, self.month, day):
                 cssclass += ' today'
-            if day in self.workouts:
+            if day in self.tasks:
                 cssclass += ' filled'
                 body = ['<ul>']
-                for workout in self.workouts[day]:
+                for task in self.tasks[day]:
                     body.append('<li>')
-                    body.append('<a href="%s">' % workout.get_absolute_url())
-                    body.append(esc(workout.title))
+                    body.append('<a href="%s">' % task.get_absolute_url())
+                    body.append(esc(task.title))
                     body.append('<br>')
                     body.append('<span class="badge badge-')
-                    body.append(esc(workout.category.get_color_display()))
+                    body.append(esc(task.category.get_color_display()))
                     body.append('">')
-                    body.append(esc(workout.category.name))
+                    body.append(esc(task.category.name))
                     body.append('</span>')
                     body.append('</a></li>')
                 body.append('</ul>')
@@ -143,12 +143,12 @@ class WorkoutCalendar(HTMLCalendar):
 
     def formatmonth(self, year, month, withyear=True):
         self.year, self.month = year, month
-        return super(WorkoutCalendar, self).formatmonth(year, month)
+        return super(TaskCalendar, self).formatmonth(year, month)
 
-    def group_by_day(self, workouts):
-        field = lambda workout: workout.due_date.day
+    def group_by_day(self, tasks):
+        field = lambda task: task.due_date.day
         return dict(
-            [(day, list(items)) for day, items in groupby(workouts, field)]
+            [(day, list(items)) for day, items in groupby(tasks, field)]
         )
 
     def day_cell(self, cssclass, body):
