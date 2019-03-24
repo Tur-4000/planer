@@ -187,7 +187,7 @@ class SetReferat(models.Model):
     referat = models.ForeignKey(Referats, on_delete=models.DO_NOTHING)
     employee = models.ForeignKey(Employees, on_delete=models.DO_NOTHING)
     accredit = models.ForeignKey(Accredits, on_delete=models.DO_NOTHING)
-    date = models.DateField(verbose_name='Дата реферата')
+    date = models.DateField(verbose_name='На дату')
 
     class Meta:
         unique_together = ('referat', 'employee', 'accredit')

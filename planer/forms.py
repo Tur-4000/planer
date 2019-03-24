@@ -3,7 +3,7 @@ import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import TodoList, Category, Employees, Referats, Accredits
+from .models import TodoList, Category, Employees, Referats, Accredits, SetReferat
 
 
 class TaskForm(forms.ModelForm):
@@ -95,3 +95,10 @@ class AccreditForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'placeholder': 'Название (период)'}),
             'first_year': forms.NumberInput(attrs={'placeholder': 'год начала аккредитации'})
         }
+
+
+class AssignReferatForm(forms.ModelForm):
+
+    class Meta:
+        model = SetReferat
+        fields = ['employee', 'referat', 'date']

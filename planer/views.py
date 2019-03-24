@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 
-from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, AccreditForm
-from .models import TodoList, Category, Employees, Referats, Accredits
+from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, AccreditForm, AssignReferatForm
+from .models import TodoList, Category, Employees, Referats, Accredits, SetReferat
 from .utils import TaskCalendar
 
 
@@ -291,4 +291,25 @@ def accredit_edit(request, accredit_id):
 
 @login_required
 def accredit_detail(request, accredit_id):
-    pass
+    today = date.today()
+    accredit = get_object_or_404(Accredits, id=accredit_id)
+    context = {'today': today, 'accredit': accredit}
+    return render(request, 'planer/accredit_detail.html', context)
+
+
+@login_required
+def assign_referat(request, accredit_id):
+    title = 'Назначить реферат'
+    today = date.today()
+    accredit = get_object_or_404(Accredits, id=accredit_id)
+    if request.method == 'POST':
+        form = AssignReferatForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.accredit = accredit
+            obj.save()
+            return redirect('accredit_detail', accredit_id)
+    else:
+        form = AssignReferatForm()
+    context = {'title': title, 'today': today, 'form': form, 'accredit': accredit}
+    return render(request, 'planer/assign_referat.html', context)
