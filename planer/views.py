@@ -3,11 +3,11 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 
 from .forms import TaskForm, TaskEndForm, CategoryForm
-from .models import TodoList, Category
+from .models import TodoList, Category, Employees
 from .utils import TaskCalendar
 
 
@@ -166,3 +166,13 @@ def calendar(request, year, month):
     context = {'calendar': mark_safe(cal), 'today': today, 'prev': prev, 'next': next_month}
 
     return render(request, 'planer/calendar.html', context)
+
+
+@login_required
+def employees_list(request):
+    title = 'Справочник сотрудников'
+    employees = Employees.objects.all()
+    today = date.today()
+    context = {'title': title, 'employees': employees, 'today': today}
+    return render(request, 'planer/employees_list.html', context)
+

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+  <h1>{{ titte }}</h1>
+
+    <a href="" class="btn btn-outline-primary mb-2">
+      <span class="icon icon-user-add"></span>
+      Добавить сотрудника</a>
+    <br>
+
+  <table class="table table-sm table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Ф.И.О.</th>
+        <th>Должность</th>
+        <th>Врач?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employe in employees %}
+        <tr>
+          <td>
+            <a href=""><span class="icon icon-pencil"></span></a>
+          </td>
+          <td>
+            {{ employe.last_name }} {{ employe.first_name }} {{ employe.patronym }}
+          </td>
+          <td>{{ employe.rank }}</td>
+          <td>
+            {% if employe.is_doctor %}
+              Врач
+            {% endif %}
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
