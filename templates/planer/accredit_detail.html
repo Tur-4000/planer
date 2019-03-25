@@ -13,9 +13,7 @@
   <table class="table table-sm table-hover">
     <thead class="thead-indigo">
     <tr>
-      <th>
-        <a href="{% url 'assign_referat' accredit.id %}" class="btn btn-sm btn-light">Назначить реферат</a>
-      </th>
+      <th></th>
       <th colspan="12">{{ accredit.first_year }}</th>
     </tr>
       <tr>
@@ -35,10 +33,15 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in accredit.employee.all %}
+      {% for employee in employees %}
 
         <tr>
-          <td>{{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.</td>
+          <td>
+            {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.
+            <a href="{% url 'assign_referat' accredit.id employee.id %}">
+              <span class="badge badge-success"><span class="icon icon-plus-squared"></span></span>
+            </a>
+          </td>
           <td></td>
           <td></td>
           <td></td>

@@ -3,8 +3,12 @@ import locale as _locale
 from calendar import HTMLCalendar, different_locale, day_abbr, month_name
 from itertools import groupby
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 from django.utils.html import conditional_escape as esc
+from django.shortcuts import get_object_or_404
+
+from .models import Accredits, SetReferat
 
 
 class TaskCalendar(HTMLCalendar):
@@ -68,4 +72,32 @@ class TaskCalendar(HTMLCalendar):
 
     def day_cell(self, cssclass, body):
         return '<td class="%s">%s</td>' % (cssclass, body)
+
+
+#TODO: домучить
+def acr_ref(acr_id):
+    """в процессе"""
+    acred = get_object_or_404(Accredits, id=acr_id)
+    first_year = date(acred.first_year, 1, 1)
+    second_year = first_year + relativedelta(years=1)
+    third_year = second_year + relativedelta(years=1)
+
+    refs = SetReferat.objects.filter(accredit=acr_id)
+    y1 = {}
+    y2 = {}
+    y3 = {}
+
+    for ref in refs:
+        if ref.date.year == first_year.year:
+            y1 += ref
+        if ref.date.year == second_year.year:
+            y2 += ref
+        if ref.date.year == third_year.year:
+            y3 += ref
+
+    referats = {y1, y2, y3}
+    return referats
+
+
+
 

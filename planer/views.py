@@ -293,23 +293,27 @@ def accredit_edit(request, accredit_id):
 def accredit_detail(request, accredit_id):
     today = date.today()
     accredit = get_object_or_404(Accredits, id=accredit_id)
-    context = {'today': today, 'accredit': accredit}
+    employees = Employees.objects.all()
+    context = {'today': today, 'accredit': accredit, 'employees': employees}
     return render(request, 'planer/accredit_detail.html', context)
 
 
 @login_required
-def assign_referat(request, accredit_id):
+def assign_referat(request, accredit_id, employee_id):
     title = 'Назначить реферат'
     today = date.today()
     accredit = get_object_or_404(Accredits, id=accredit_id)
+    employee = get_object_or_404(Employees, id=employee_id)
     if request.method == 'POST':
         form = AssignReferatForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.accredit = accredit
+            obj.employee = employee
             obj.save()
             return redirect('accredit_detail', accredit_id)
     else:
         form = AssignReferatForm()
-    context = {'title': title, 'today': today, 'form': form, 'accredit': accredit}
+    context = {'title': title, 'today': today, 'form': form,
+               'accredit': accredit, 'employee': employee}
     return render(request, 'planer/assign_referat.html', context)
