@@ -1,4 +1,5 @@
 {% load static %}
+{% load planer_tags %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -36,7 +37,8 @@
               Список задач</a>
           </li>
           <li class="nav-item mr-2">
-            <a href="{% url 'calendar' today.year today.month %}" class="nav-link btn btn-outline-primary">
+            {% get_today as today_tag %}
+            <a href="{% url 'calendar' today_tag.year today_tag.month %}" class="nav-link btn btn-outline-primary">
               <span class="icon icon-calendar"></span>
               Календарь</a>
           </li>
