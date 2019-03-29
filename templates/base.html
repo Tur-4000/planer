@@ -36,11 +36,16 @@
               <span class="icon icon-list"></span>
               Список задач</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item mr-2">
             {% get_today as today_tag %}
             <a href="{% url 'calendar' today_tag.year today_tag.month %}" class="nav-link btn btn-outline-primary">
               <span class="icon icon-calendar"></span>
               Календарь</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'accredits_list' %}" class="nav-link btn btn-outline-primary">
+              <span class="icon icon-trophy"></span>
+              Аккредитации</a>
           </li>
         </ul>
 

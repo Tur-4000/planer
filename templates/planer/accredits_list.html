@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+
+  <a href="{% url 'accredit_add' %}" class="btn btn-outline-primary mb-2">
+    <span class="icon icon-plus-squared"></span>
+    Добавить аккредитацию</a>
+  <br>
+
+  <table class="table table-sm table-hover">
+    <thead class="thead-indigo">
+      <tr>
+        <th></th>
+        <th>Аккредитация</th>
+        <th>Начальный год</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for accredit in accredits %}
+        <tr>
+          <td>
+            <a href="{% url 'accredit_edit' accredit.id %}"><span class="icon icon-pencil"></span></a>
+          </td>
+          <td>
+            <a href="{% url 'accredit_detail' accredit.id %}">{{ accredit.title }}</a>
+          </td>
+          <td>{{ accredit.first_year }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
