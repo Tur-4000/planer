@@ -106,3 +106,15 @@ class AssignReferatForm(forms.ModelForm):
             'referat': forms.Select(),
             'date': forms.DateInput(attrs={'id': 'datepicker'})
         }
+
+
+class SetReferatForm(forms.ModelForm):
+
+    class Meta:
+        model = SetReferat
+        fields = ['employee', 'referat', 'date']
+        widgets = {
+            'employee': forms.Select(),
+            'referat': forms.Select(),
+            'date': forms.DateInput(attrs={'id': 'datepicker'})
+        }

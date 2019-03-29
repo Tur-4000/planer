@@ -78,26 +78,34 @@ class TaskCalendar(HTMLCalendar):
 #TODO: домучить
 def acr_ref(acr_id):
     """в процессе"""
-    acred = get_object_or_404(Accredits, id=acr_id)
-    first_year = date(acred.first_year, 1, 1)
-    second_year = first_year + relativedelta(years=1)
-    third_year = second_year + relativedelta(years=1)
-
-    refs = SetReferat.objects.filter(accredit=acr_id)
-    y1 = {}
-    y2 = {}
-    y3 = {}
-
-    for ref in refs:
-        if ref.date.year == first_year.year:
-            y1 += ref
-        if ref.date.year == second_year.year:
-            y2 += ref
-        if ref.date.year == third_year.year:
-            y3 += ref
-
-    referats = {y1, y2, y3}
-    return referats
+    pass
+    # first_year = []
+    #
+    # for e in employees:
+    #     first_year.append('<tr>')
+    #     first_year.append('<td>')
+    #     first_year.append(esc(e.last_name))
+    #     first_year.append(esc(e.first_name[0]) + '.')
+    #     first_year.append(esc(e.patronym[0]) + '.')
+    #     first_year.append('<a href="{}'.format(reverse('assign_referat',
+    #                                                    kwargs={'accredit_id': accredit.id,
+    #                                                            'employee_id': e.id})))
+    #     first_year.append('">')
+    #     first_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
+    #     first_year.append('</span></span></a>')
+    #     first_year.append('<td>')
+    #
+    #     for r in accredit.setreferat_set.filter(date__year=accredit.first_year, employee=e.id):
+    #
+    #         for i in range(1, 13):
+    #             if r.date.month == i:
+    #                 first_year.append('<td>')
+    #                 first_year.append(esc(r.referat.title))
+    #                 first_year.append('</td>')
+    #             else:
+    #                 first_year.append('<td></td>')
+    #     first_year.append('</tr>')
+    # return referats
 
 
 

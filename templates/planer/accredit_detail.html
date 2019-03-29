@@ -10,7 +10,7 @@
   <h1>{{ accredit.title }}</h1>
 
 {# таблица рефератов первого года аккредитации #}
-  <table class="table table-sm table-hover">
+  <table class="table table-sm table-hover table-bordered">
     <thead class="thead-indigo">
     <tr>
       <th></th>
@@ -34,11 +34,11 @@
     </thead>
     <tbody>
 
-          {% for row in first_year %}
+      {% for row in first_year %}
 
-            {{ row|safe }}
+        {{ row|safe }}
 
-          {% endfor %}
+      {% endfor %}
 
     </tbody>
   </table>
@@ -67,28 +67,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in employees %}
+      {% for row in second_year %}
 
-        <tr>
-          <td>
-            {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.
-            <a href="{% url 'assign_referat' accredit.id employee.id %}">
-              <span class="badge badge-success float-right"><span class="icon icon-plus"></span></span>
-            </a>
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        {{ row|safe }}
 
       {% endfor %}
     </tbody>
@@ -118,28 +99,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in employees %}
+      {% for row in third_year %}
 
-        <tr>
-          <td>
-            {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.
-            <a href="{% url 'assign_referat' accredit.id employee.id %}">
-              <span class="badge badge-success float-right"><span class="icon icon-plus"></span></span>
-            </a>
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        {{ row|safe }}
 
       {% endfor %}
     </tbody>

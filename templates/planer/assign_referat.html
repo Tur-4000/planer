@@ -11,7 +11,9 @@
   <div class="container col-lg-4 col-md-6 col-sm-12 col-xs-12">
     <h1>{{ accredit.title }}</h1>
     <h3>{{ title }}</h3>
-    <h4>{{ employee.rank }}: {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.</h4>
+    {% if employee %}
+      <h4>{{ employee.rank }}: {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.</h4>
+    {% endif %}
 
     <form method="post" class="">
       {% csrf_token %}

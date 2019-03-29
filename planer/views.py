@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape as esc
 
-from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, AccreditForm, AssignReferatForm
+from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, \
+    AccreditForm, AssignReferatForm, SetReferatForm
 from .models import TodoList, Category, Employees, Referats, Accredits, SetReferat
 from .utils import TaskCalendar
 
@@ -277,34 +278,76 @@ def accredit_detail(request, accredit_id):
     accredit = get_object_or_404(Accredits, id=accredit_id)
     employees = Employees.objects.all()
 
-
-
     first_year = []
-    for emp in accredit.setreferat_set.filter(date__year=accredit.first_year):
+    second_year = []
+    third_year = []
+    for e in employees:
         first_year.append('<tr>')
         first_year.append('<td>')
-        first_year.append(esc(emp.employee.last_name))
-        first_year.append(esc(emp.employee.first_name[0])+'.')
-        first_year.append(esc(emp.employee.patronym[0])+'.')
+        first_year.append(esc(e.last_name))
+        first_year.append(esc(e.first_name[0]) + '.')
+        first_year.append(esc(e.patronym[0]) + '.')
         first_year.append('<a href="{}'.format(reverse('assign_referat',
                                                        kwargs={'accredit_id': accredit.id,
-                                                               'employee_id': emp.employee.id})))
+                                                               'employee_id': e.id})))
         first_year.append('">')
         first_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
         first_year.append('</span></span></a>')
         first_year.append('<td>')
+
+        second_year.append('<tr>')
+        second_year.append('<td>')
+        second_year.append(esc(e.last_name))
+        second_year.append(esc(e.first_name[0]) + '.')
+        second_year.append(esc(e.patronym[0]) + '.')
+        second_year.append('<a href="{}'.format(reverse('assign_referat',
+                                                        kwargs={'accredit_id': accredit.id,
+                                                                'employee_id': e.id})))
+        second_year.append('">')
+        second_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
+        second_year.append('</span></span></a>')
+        second_year.append('<td>')
+
+        third_year.append('<tr>')
+        third_year.append('<td>')
+        third_year.append(esc(e.last_name))
+        third_year.append(esc(e.first_name[0]) + '.')
+        third_year.append(esc(e.patronym[0]) + '.')
+        third_year.append('<a href="{}'.format(reverse('assign_referat',
+                                                       kwargs={'accredit_id': accredit.id,
+                                                               'employee_id': e.id})))
+        third_year.append('">')
+        third_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
+        third_year.append('</span></span></a>')
+        third_year.append('<td>')
+
         for i in range(1, 13):
-            if emp.date.month == i:
-                first_year.append('<td>')
-                first_year.append(esc(emp.referat.title))
-                first_year.append('</td>')
-            else:
-                first_year.append('<td></td>')
+            first_year.append('<td>')
+            for r in accredit.setreferat_set.filter(date__year=accredit.first_year, employee=e.id):
+                if r.date.month == i:
+                    first_year.append(esc(r.referat.title))
+            first_year.append('</td>')
         first_year.append('</tr>')
 
-    context = {'accredit': accredit, 'employees': employees, 'first_year': first_year}
-    return render(request, 'planer/accredit_detail.html', context)
+        for i in range(1, 13):
+            second_year.append('<td>')
+            for r in accredit.setreferat_set.filter(date__year=accredit.first_year+1, employee=e.id):
+                if r.date.month == i:
+                    second_year.append(esc(r.referat.title))
+            second_year.append('</td>')
+        second_year.append('</tr>')
 
+        for i in range(1, 13):
+            third_year.append('<td>')
+            for r in accredit.setreferat_set.filter(date__year=(accredit.first_year)+2, employee=e.id):
+                if r.date.month == i:
+                    third_year.append(esc(r.referat.title))
+            third_year.append('</td>')
+        third_year.append('</tr>')
+
+    context = {'accredit': accredit, 'employees': employees,
+               'first_year': first_year, 'second_year': second_year, 'third_year': third_year}
+    return render(request, 'planer/accredit_detail.html', context)
 
 @login_required
 def assign_referat(request, accredit_id, employee_id):
