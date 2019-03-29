@@ -33,30 +33,13 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in employees %}
 
-        <tr>
-          <td>
-            {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.
-            <a href="{% url 'assign_referat' accredit.id employee.id %}">
-              <span class="badge badge-success"><span class="icon icon-plus-squared"></span></span>
-            </a>
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        
-      {% endfor %}      
+          {% for row in first_year %}
+
+            {{ row|safe }}
+
+          {% endfor %}
+
     </tbody>
   </table>
 
@@ -64,9 +47,7 @@
   <table class="table table-sm table-hover">
     <thead class="thead-indigo">
     <tr>
-      <th>
-        <a href="" class="btn btn-sm btn-light">Назначить реферат</a>
-      </th>
+      <th></th>
       <th colspan="12">{{ accredit.first_year|add:"1" }}</th>
     </tr>
       <tr>
@@ -86,10 +67,15 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in accredit.employee.all %}
+      {% for employee in employees %}
 
         <tr>
-          <td>{{ employee.last_name }} {{ employee.first_name|first }}. </td>
+          <td>
+            {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.
+            <a href="{% url 'assign_referat' accredit.id employee.id %}">
+              <span class="badge badge-success float-right"><span class="icon icon-plus"></span></span>
+            </a>
+          </td>
           <td></td>
           <td></td>
           <td></td>
@@ -112,9 +98,7 @@
   <table class="table table-sm table-hover">
     <thead class="thead-indigo">
     <tr>
-      <th>
-        <a href="" class="btn btn-sm btn-light">Назначить реферат</a>
-      </th>
+      <th></th>
       <th colspan="12">{{ accredit.first_year|add:"2" }}</th>
     </tr>
       <tr>
@@ -134,10 +118,15 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in accredit.employee.all %}
+      {% for employee in employees %}
 
         <tr>
-          <td>{{ employee.last_name }} {{ employee.first_name|first }}. </td>
+          <td>
+            {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.
+            <a href="{% url 'assign_referat' accredit.id employee.id %}">
+              <span class="badge badge-success float-right"><span class="icon icon-plus"></span></span>
+            </a>
+          </td>
           <td></td>
           <td></td>
           <td></td>

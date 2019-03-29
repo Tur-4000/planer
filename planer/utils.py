@@ -65,7 +65,8 @@ class TaskCalendar(HTMLCalendar):
         return '<tr><th colspan="7" class="month">%s</th></tr>' % s
 
     def group_by_day(self, tasks):
-        field = lambda task: task.due_date.day
+        # field = lambda task: task.due_date.day
+        def field(task): return task.due_date.day
         return dict(
             [(day, list(items)) for day, items in groupby(tasks, field)]
         )

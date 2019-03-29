@@ -194,3 +194,8 @@ class SetReferat(models.Model):
 
     def __str__(self):
         return f'{self.accredit} {self.employee} {self.referat} {self.date}'
+
+    def get_absolute_url(self):
+        return reverse('assign_referat',
+                       kwargs={'accredit_id': self.accredit.id,
+                               'employee_id': self.employee.id})

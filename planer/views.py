@@ -3,8 +3,9 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.utils.safestring import mark_safe
+from django.utils.html import conditional_escape as esc
 
 from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, AccreditForm, AssignReferatForm
 from .models import TodoList, Category, Employees, Referats, Accredits, SetReferat
@@ -237,16 +238,14 @@ def referat_edit(request, referat_id):
 @login_required
 def accredits_list(request):
     title = 'Список аккредитаций'
-    today = date.today()
     accredits = Accredits.objects.all()
-    context = {'title': title, 'today': today, 'accredits': accredits}
+    context = {'title': title, 'accredits': accredits}
     return render(request, 'planer/accredits_list.html', context)
 
 
 @login_required
 def accredit_add(request):
     title = 'Добавить аккредитацию'
-    today = date.today()
     if request.method == 'POST':
         form = AccreditForm(request.POST)
         if form.is_valid():
@@ -254,14 +253,13 @@ def accredit_add(request):
             return redirect('accredits_list')
     else:
         form = AccreditForm()
-    context = {'title': title, 'today': today, 'form': form}
+    context = {'title': title, 'form': form}
     return render(request, 'planer/accredit.html', context)
 
 
 @login_required
 def accredit_edit(request, accredit_id):
     title = 'Редактировать аккредитацию'
-    today = date.today()
     accredit = get_object_or_404(Accredits, id=accredit_id)
     if request.method == 'POST':
         form = AccreditForm(request.POST, instance=accredit)
@@ -270,23 +268,47 @@ def accredit_edit(request, accredit_id):
             return redirect('accredits_list')
     else:
         form = AccreditForm(instance=accredit)
-    context = {'title': title, 'today': today, 'form': form}
+    context = {'title': title, 'form': form}
     return render(request, 'planer/accredit.html', context)
 
 
 @login_required
 def accredit_detail(request, accredit_id):
-    today = date.today()
     accredit = get_object_or_404(Accredits, id=accredit_id)
     employees = Employees.objects.all()
-    context = {'today': today, 'accredit': accredit, 'employees': employees}
+
+
+
+    first_year = []
+    for emp in accredit.setreferat_set.filter(date__year=accredit.first_year):
+        first_year.append('<tr>')
+        first_year.append('<td>')
+        first_year.append(esc(emp.employee.last_name))
+        first_year.append(esc(emp.employee.first_name[0])+'.')
+        first_year.append(esc(emp.employee.patronym[0])+'.')
+        first_year.append('<a href="{}'.format(reverse('assign_referat',
+                                                       kwargs={'accredit_id': accredit.id,
+                                                               'employee_id': emp.employee.id})))
+        first_year.append('">')
+        first_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
+        first_year.append('</span></span></a>')
+        first_year.append('<td>')
+        for i in range(1, 13):
+            if emp.date.month == i:
+                first_year.append('<td>')
+                first_year.append(esc(emp.referat.title))
+                first_year.append('</td>')
+            else:
+                first_year.append('<td></td>')
+        first_year.append('</tr>')
+
+    context = {'accredit': accredit, 'employees': employees, 'first_year': first_year}
     return render(request, 'planer/accredit_detail.html', context)
 
 
 @login_required
 def assign_referat(request, accredit_id, employee_id):
     title = 'Назначить реферат'
-    today = date.today()
     accredit = get_object_or_404(Accredits, id=accredit_id)
     employee = get_object_or_404(Employees, id=employee_id)
     if request.method == 'POST':
@@ -299,6 +321,6 @@ def assign_referat(request, accredit_id, employee_id):
             return redirect('accredit_detail', accredit_id)
     else:
         form = AssignReferatForm()
-    context = {'title': title, 'today': today, 'form': form,
+    context = {'title': title, 'form': form,
                'accredit': accredit, 'employee': employee}
     return render(request, 'planer/assign_referat.html', context)
