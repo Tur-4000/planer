@@ -18,15 +18,17 @@ def todo_list(request):
     title = 'Скоро'
     is_ended = False
     todolist = TodoList.objects.filter(is_ended=False).order_by('due_date')
-    return render(request, 'planer/todo_list.html',
-                  {'todolist': todolist, 'title': title,
-                   'is_ended': is_ended, 'today': today, 'seven_days': seven_days})
+    context = {'todolist': todolist,
+               'title': title,
+               'is_ended': is_ended,
+               'today': today,
+               'seven_days': seven_days}
+    return render(request, 'planer/todo_list.html', context)
 
 
 @login_required
 def tasks_ended(request):
     title = 'Закрытые задачи'
-    # today = date.today()
     is_ended = True
     todolist = TodoList.objects.filter(is_ended=True).order_by('due_date')
     context = {'todolist': todolist, 'title': title, 'is_ended': is_ended}
@@ -48,7 +50,6 @@ def category_filter(request, slug):
 @login_required
 def task_detail(request, pk):
     task = get_object_or_404(TodoList, id=pk)
-    today = date.today()
 
     if request.method == 'POST':
         form = TaskEndForm(request.POST, instance=task)
@@ -65,12 +66,11 @@ def task_detail(request, pk):
                 )
                 new_task.save()
             return redirect('todo_list')
-        else:
-            return render(request, 'planer/task_detail.html',
-                          {'task': task, 'form': form, 'today': today})
-    form = TaskEndForm(instance=task)
-    return render(request, 'planer/task_detail.html',
-                  {'task': task, 'form': form, 'today': today})
+    else:
+        form = TaskEndForm(instance=task)
+
+    context = {'task': task, 'form': form}
+    return render(request, 'planer/task_detail.html', context)
 
 
 @login_required
@@ -82,12 +82,11 @@ def task_add(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
-        else:
-            return render(request, 'planer/task.html', {'title': title, 'form': form, 'today': today})
-        return redirect('todo_list')
+            return redirect('todo_list')
     else:
         form = TaskForm()
-        return render(request, 'planer/task.html', {'title': title, 'form': form, 'today': today})
+    context = {'title': title, 'form': form, 'today': today}
+    return render(request, 'planer/task.html', context)
 
 
 @login_required
@@ -100,37 +99,34 @@ def task_edit(request, task_id):
         if form.is_valid():
             form.save()
             return redirect('todo_list')
-        else:
-            return render(request, 'planer/task.html',
-                          {'title': title, 'form': form, 'today': today})
-    form = TaskForm(instance=task)
-    return render(request, 'planer/task.html',
-                  {'title': title, 'form': form, 'today': today})
+    else:
+        form = TaskForm(instance=task)
+    context = {'title': title, 'form': form, 'today': today}
+    return render(request, 'planer/task.html', context)
 
 
 @login_required
 def category_list(request):
     titte = 'Справочник категорий'
     categories = Category.objects.all()
-    return render(request,
-                  'planer/category_list.html',
-                  {'categories': categories, 'titte': titte})
+    context = {'categories': categories, 'titte': titte}
+    return render(request, 'planer/category_list.html', context)
 
 
 @login_required
 def category_add(request):
     title = 'Добавить категорию'
+
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('category_list')
-        else:
-            return render(request, 'planer/category.html',
-                          {'title': title, 'form': form})
-    form = CategoryForm()
-    return render(request, 'planer/category.html',
-                  {'title': title, 'form': form})
+    else:
+        form = CategoryForm()
+
+    context = {'title': title, 'form': form}
+    return render(request, 'planer/category.html', context)
 
 
 @login_required
@@ -142,12 +138,10 @@ def category_edit(request, category_id):
         if form.is_valid():
             form.save()
             return redirect('category_list')
-        else:
-            return render(request, 'planer/category.html',
-                          {'title': title, 'form': form})
-    form = CategoryForm(instance=category)
-    return render(request, 'planer/category.html',
-                  {'title': title, 'form': form})
+    else:
+        form = CategoryForm(instance=category)
+    context = {'title': title, 'form': form}
+    return render(request, 'planer/category.html', context)
 
 
 @login_required
