@@ -11,6 +11,9 @@
   <div class="container col-lg-4 col-md-6 col-sm-12 col-xs-12">
     <h1>{{ accredit.title }}</h1>
     <h3>{{ title }}</h3>
+    {% if employee %}
+      <h4>{{ employee.rank }}: {{ employee.last_name }} {{ employee.first_name|first }}. {{ employee.patronym|first }}.</h4>
+    {% endif %}
 
     <form method="post" class="">
       {% csrf_token %}
@@ -26,5 +29,25 @@
       </div>
     </form>
   </div>
+
+{% endblock %}
+
+{% block script %}
+  {{ block.super }}
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <script>
+    $( function() {
+      $( "#datepicker" ).datepicker({
+          firstDay: 1,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ],
+          monthNamesShort: [ "Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ],
+          dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" ]
+      });
+    } );
+  </script>
 
 {% endblock %}
