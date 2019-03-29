@@ -26,10 +26,10 @@ def todo_list(request):
 @login_required
 def tasks_ended(request):
     title = 'Закрытые задачи'
-    today = date.today()
+    # today = date.today()
     is_ended = True
     todolist = TodoList.objects.filter(is_ended=True).order_by('due_date')
-    context = {'todolist': todolist, 'title': title, 'is_ended': is_ended, 'today': today}
+    context = {'todolist': todolist, 'title': title, 'is_ended': is_ended}
     return render(request, 'planer/todo_list.html', context)
 
 
@@ -111,17 +111,15 @@ def task_edit(request, task_id):
 @login_required
 def category_list(request):
     titte = 'Справочник категорий'
-    today = date.today()
     categories = Category.objects.all()
     return render(request,
                   'planer/category_list.html',
-                  {'categories': categories, 'titte': titte, 'today': today})
+                  {'categories': categories, 'titte': titte})
 
 
 @login_required
 def category_add(request):
     title = 'Добавить категорию'
-    today = date.today()
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
@@ -129,16 +127,15 @@ def category_add(request):
             return redirect('category_list')
         else:
             return render(request, 'planer/category.html',
-                          {'title': title, 'form': form, 'today': today})
+                          {'title': title, 'form': form})
     form = CategoryForm()
     return render(request, 'planer/category.html',
-                  {'title': title, 'form': form, 'today': today})
+                  {'title': title, 'form': form})
 
 
 @login_required
 def category_edit(request, category_id):
     title = 'Редактировать категорию'
-    today = date.today()
     category = get_object_or_404(Category, id=category_id)
     if request.method == 'POST':
         form = CategoryForm(request.POST, instance=category)
@@ -147,10 +144,10 @@ def category_edit(request, category_id):
             return redirect('category_list')
         else:
             return render(request, 'planer/category.html',
-                          {'title': title, 'form': form, 'today': today})
+                          {'title': title, 'form': form})
     form = CategoryForm(instance=category)
     return render(request, 'planer/category.html',
-                  {'title': title, 'form': form, 'today': today})
+                  {'title': title, 'form': form})
 
 
 @login_required
@@ -172,15 +169,13 @@ def calendar(request, year, month):
 def employees_list(request):
     title = 'Справочник сотрудников'
     employees = Employees.objects.all()
-    today = date.today()
-    context = {'title': title, 'employees': employees, 'today': today}
+    context = {'title': title, 'employees': employees}
     return render(request, 'planer/employees_list.html', context)
 
 
 @login_required
 def employee_add(request):
     title = 'Добавить сотрудника'
-    today = date.today()
 
     if request.method == 'POST':
         form = EmployeesForm(request.POST)
@@ -190,13 +185,12 @@ def employee_add(request):
     else:
         form = EmployeesForm()
 
-    context = {'title': title, 'today': today, 'form': form}
+    context = {'title': title, 'form': form}
     return render(request, 'planer/employee.html', context)
 
 
 def employee_edit(request, employee_id):
     title = 'Редактировать сотрудника'
-    today = date.today()
     employee = get_object_or_404(Employees, id=employee_id)
     if request.method == 'POST':
         form = EmployeesForm(request.POST, instance=employee)
@@ -205,23 +199,21 @@ def employee_edit(request, employee_id):
             return redirect('employees_list')
     else:
         form = EmployeesForm(instance=employee)
-    context = {'title': title, 'today': today, 'form': form}
+    context = {'title': title, 'form': form}
     return render(request, 'planer/employee.html', context)
 
 
 @login_required
 def referats_list(request):
     title = 'Справочник рефератов'
-    today = date.today()
     referats = Referats.objects.all()
-    context = {'title': title, 'today': today, 'referats': referats}
+    context = {'title': title, 'referats': referats}
     return render(request, 'planer/referats_list.html', context)
 
 
 @login_required
 def referat_add(request):
     title = 'Добавить реферат'
-    today = date.today()
     if request.method == 'POST':
         form = ReferatForm(request.POST)
         if form.is_valid():
@@ -229,14 +221,13 @@ def referat_add(request):
             return redirect('referats_list')
     else:
         form = ReferatForm()
-    context = {'title': title, 'today': today, 'form': form}
+    context = {'title': title, 'form': form}
     return render(request, 'planer/referat.html', context)
 
 
 @login_required
 def referat_edit(request, referat_id):
     title = 'Добавить реферат'
-    today = date.today()
     referat = get_object_or_404(Referats, id=referat_id)
     if request.method == 'POST':
         form = ReferatForm(request.POST, instance=referat)
@@ -245,5 +236,5 @@ def referat_edit(request, referat_id):
             return redirect('referats_list')
     else:
         form = ReferatForm(instance=referat)
-    context = {'title': title, 'today': today, 'form': form}
+    context = {'title': title, 'form': form}
     return render(request, 'planer/referat.html', context)
