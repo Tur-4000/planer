@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '^_4@r)_2^x45_2ku6dc(yd_^-3!q%h
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.50.10', ]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -125,9 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = bool(os.environ.get('SESSION_COOKIE_SECURE', False))
+SESSION_COOKIE_SECURE = bool(os.environ.get('SESSION_COOKIE_SECURE', True))
 X_FRAME_OPTIONS = 'DENY'
-CSRF_COOKIE_SECURE = bool(os.environ.get('CSRF_COOKIE_SECURE', False))
+CSRF_COOKIE_SECURE = bool(os.environ.get('CSRF_COOKIE_SECURE', True))
 
 
 # Internationalization
