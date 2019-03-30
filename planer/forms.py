@@ -107,6 +107,16 @@ class AssignReferatForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'id': 'datepicker'})
         }
 
+    def __init__(self, *args, **kwargs):
+        if 'referats' in kwargs:
+            qs = kwargs.pop('referats')
+
+        super(AssignReferatForm, self).__init__(*args, **kwargs)
+        try:
+            self.fields['referat'].queryset = qs
+        except AttributeError:
+            pass
+
 
 class SetReferatForm(forms.ModelForm):
 
