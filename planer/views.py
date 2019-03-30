@@ -293,7 +293,7 @@ def accredit_detail(request, accredit_id):
         first_year.append('">')
         first_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
         first_year.append('</span></span></a>')
-        first_year.append('<td>')
+        first_year.append('</td>')
 
         second_year.append('<tr>')
         second_year.append('<td>')
@@ -306,7 +306,7 @@ def accredit_detail(request, accredit_id):
         second_year.append('">')
         second_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
         second_year.append('</span></span></a>')
-        second_year.append('<td>')
+        second_year.append('</td>')
 
         third_year.append('<tr>')
         third_year.append('<td>')
@@ -319,12 +319,14 @@ def accredit_detail(request, accredit_id):
         third_year.append('">')
         third_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
         third_year.append('</span></span></a>')
-        third_year.append('<td>')
+        third_year.append('</td>')
 
         for i in range(1, 13):
             first_year.append('<td>')
             for r in accredit.setreferat_set.filter(date__year=accredit.first_year, employee=e.id):
                 if r.date.month == i:
+                    first_year.append(esc(r.date))
+                    first_year.append(' | ')
                     first_year.append(esc(r.referat.title))
             first_year.append('</td>')
         first_year.append('</tr>')
@@ -333,14 +335,18 @@ def accredit_detail(request, accredit_id):
             second_year.append('<td>')
             for r in accredit.setreferat_set.filter(date__year=accredit.first_year+1, employee=e.id):
                 if r.date.month == i:
+                    second_year.append(esc(r.date))
+                    second_year.append(' | ')
                     second_year.append(esc(r.referat.title))
             second_year.append('</td>')
         second_year.append('</tr>')
 
         for i in range(1, 13):
             third_year.append('<td>')
-            for r in accredit.setreferat_set.filter(date__year=(accredit.first_year)+2, employee=e.id):
+            for r in accredit.setreferat_set.filter(date__year=accredit.first_year+2, employee=e.id):
                 if r.date.month == i:
+                    third_year.append(esc(r.date))
+                    third_year.append(' | ')
                     third_year.append(esc(r.referat.title))
             third_year.append('</td>')
         third_year.append('</tr>')
@@ -348,6 +354,7 @@ def accredit_detail(request, accredit_id):
     context = {'accredit': accredit, 'employees': employees,
                'first_year': first_year, 'second_year': second_year, 'third_year': third_year}
     return render(request, 'planer/accredit_detail.html', context)
+
 
 @login_required
 def assign_referat(request, accredit_id, employee_id):

@@ -134,6 +134,7 @@ class Employees(models.Model):
     class Meta:
         verbose_name = 'Сотрудник'
         verbose_name_plural = 'Сотрудники'
+        ordering = ['last_name']
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
