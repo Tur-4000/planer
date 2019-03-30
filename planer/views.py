@@ -155,7 +155,7 @@ def calendar(request, year, month):
     my_tasks = TodoList.objects.order_by('due_date').filter(
         due_date__year=year, due_date__month=month, is_ended=False)
 
-    cal = TaskCalendar(my_tasks, locale='Russian_Russia').formatmonth(year, month)
+    cal = TaskCalendar(my_tasks, locale='C').formatmonth(year, month)
     context = {'calendar': mark_safe(cal), 'today': today, 'prev': prev, 'next': next_month}
 
     return render(request, 'planer/calendar.html', context)
