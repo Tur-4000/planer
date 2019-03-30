@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '^_4@r)_2^x45_2ku6dc(yd_^-3!q%h
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['turboplaner.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
