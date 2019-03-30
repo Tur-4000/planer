@@ -47,7 +47,7 @@ class TaskCalendar(HTMLCalendar):
     def formatweekday(self, day):
         with different_locale(self.locale):
             s = day_abbr[day]
-            s = s.encode('cp1252').decode('cp1251')
+            # s = s.encode('cp1252').decode('cp1251')
 
         return '<th class="%s">%s</th>' % (self.cssclasses[day], s)
 
@@ -58,7 +58,7 @@ class TaskCalendar(HTMLCalendar):
     def formatmonthname(self, theyear, themonth, withyear=True):
         with different_locale(self.locale):
             s = month_name[themonth]
-            s = s.encode('cp1252').decode('cp1251')
+            # s = s.encode('cp1252').decode('cp1251')
             if withyear:
                 s = '%s %s' % (s, theyear)
 
