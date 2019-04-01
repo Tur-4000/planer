@@ -1,14 +1,11 @@
 # -*- coding: utf8 -*-
 import locale as _locale
 from calendar import HTMLCalendar, different_locale, day_abbr, month_name
-from itertools import groupby
 from datetime import date
-from dateutil.relativedelta import relativedelta
+from itertools import groupby
 
+from django.shortcuts import reverse
 from django.utils.html import conditional_escape as esc
-from django.shortcuts import get_object_or_404
-
-from .models import Accredits, SetReferat
 
 
 class TaskCalendar(HTMLCalendar):
@@ -47,6 +44,7 @@ class TaskCalendar(HTMLCalendar):
     def formatweekday(self, day):
         with different_locale(self.locale):
             s = day_abbr[day]
+            # Глючит на heroku
             # s = s.encode('cp1252').decode('cp1251')
 
         return '<th class="%s">%s</th>' % (self.cssclasses[day], s)
@@ -58,6 +56,7 @@ class TaskCalendar(HTMLCalendar):
     def formatmonthname(self, theyear, themonth, withyear=True):
         with different_locale(self.locale):
             s = month_name[themonth]
+            # Глючит на heroku
             # s = s.encode('cp1252').decode('cp1251')
             if withyear:
                 s = '%s %s' % (s, theyear)
@@ -75,37 +74,39 @@ class TaskCalendar(HTMLCalendar):
         return '<td class="%s">%s</td>' % (cssclass, body)
 
 
-#TODO: домучить
-def acr_ref(acr_id):
-    """в процессе"""
-    pass
-    # first_year = []
-    #
-    # for e in employees:
-    #     first_year.append('<tr>')
-    #     first_year.append('<td>')
-    #     first_year.append(esc(e.last_name))
-    #     first_year.append(esc(e.first_name[0]) + '.')
-    #     first_year.append(esc(e.patronym[0]) + '.')
-    #     first_year.append('<a href="{}'.format(reverse('assign_referat',
-    #                                                    kwargs={'accredit_id': accredit.id,
-    #                                                            'employee_id': e.id})))
-    #     first_year.append('">')
-    #     first_year.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
-    #     first_year.append('</span></span></a>')
-    #     first_year.append('<td>')
-    #
-    #     for r in accredit.setreferat_set.filter(date__year=accredit.first_year, employee=e.id):
-    #
-    #         for i in range(1, 13):
-    #             if r.date.month == i:
-    #                 first_year.append('<td>')
-    #                 first_year.append(esc(r.referat.title))
-    #                 first_year.append('</td>')
-    #             else:
-    #                 first_year.append('<td></td>')
-    #     first_year.append('</tr>')
-    # return referats
+def acredit_table(accredit, employees, year):
+    """Генерация календарной таблицы рефератов к аккредитации"""
+    table_rows = []
+    for e in employees:
+        employee_id = e.id
+
+        table_rows.append('<tr>')
+        table_rows.append('<td>')
+        table_rows.append(esc(e.last_name))
+        table_rows.append(esc(e.first_name[0]) + '.')
+        table_rows.append(esc(e.patronym[0]) + '.')
+        table_rows.append('<a href="{}'.format(reverse('assign_referat',
+                                                       kwargs={'accredit_id': accredit.id,
+                                                               'employee_id': e.id})))
+        table_rows.append('">')
+        table_rows.append('<span class="badge badge-success float-right"><span class="icon icon-plus">')
+        table_rows.append('</span></span></a>')
+        table_rows.append('</td>')
+
+        referats = accredit.setreferat_set.filter(date__year=year, employee=employee_id)
+
+        for i in range(1, 13):
+            table_rows.append('<td>')
+            for r in referats:
+                if r.date.month == i:
+                    table_rows.append(esc(r.date))
+                    table_rows.append(' | ')
+                    table_rows.append(esc(r.referat.title))
+            table_rows.append('</td>')
+        table_rows.append('</tr>')
+
+    return table_rows
+
 
 
 
