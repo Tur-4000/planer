@@ -185,7 +185,7 @@ class Accredits(models.Model):
 
 
 class SetReferat(models.Model):
-    referat = models.ForeignKey(Referats, on_delete=models.DO_NOTHING)
+    referat = models.ForeignKey(Referats, on_delete=models.DO_NOTHING, verbose_name='Реферат')
     employee = models.ForeignKey(Employees, on_delete=models.DO_NOTHING)
     accredit = models.ForeignKey(Accredits, on_delete=models.DO_NOTHING)
     date = models.DateField(verbose_name='На дату')

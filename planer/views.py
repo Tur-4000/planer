@@ -313,3 +313,29 @@ def assign_referat(request, accredit_id, employee_id):
     context = {'title': title, 'form': form,
                'accredit': accredit, 'employee': employee}
     return render(request, 'planer/assign_referat.html', context)
+
+
+@login_required
+def edit_assigned_referat(request, accredit_id, employee_id, referat_id):
+    title = 'Редактировать назначение реферата'
+    accredit = get_object_or_404(Accredits, id=accredit_id)
+    employee = get_object_or_404(Employees, id=employee_id)
+    referat = get_object_or_404(Referats, id=referat_id)
+    referats = accredit.referat.exclude(id=referat.id).all()
+    qs = Referats.objects.exclude(id__in=referats).filter(for_doctor=employee.is_doctor)
+    ref = get_object_or_404(SetReferat, employee=employee, referat=referat)
+
+    if request.method == 'POST':
+        form = AssignReferatForm(request.POST, referats=qs, instance=ref)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.accredit = accredit
+            obj.employee = employee
+            obj.save()
+            return redirect('accredit_detail', accredit_id)
+    else:
+        form = AssignReferatForm(referats=qs, instance=ref)
+
+    context = {'title': title, 'form': form,
+               'accredit': accredit, 'employee': employee}
+    return render(request, 'planer/assign_referat.html', context)

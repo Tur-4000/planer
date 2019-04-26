@@ -99,9 +99,15 @@ def acredit_table(accredit, employees, year):
             table_rows.append('<td>')
             for r in referats:
                 if r.date.month == i:
+                    table_rows.append('<a href="{}'.format(reverse('edit_assigned_referat',
+                                                                   kwargs={'accredit_id': accredit.id,
+                                                                           'employee_id': e.id,
+                                                                           'referat_id': r.referat.id})))
+                    table_rows.append('">')
                     table_rows.append(esc(r.date))
                     table_rows.append(' | ')
                     table_rows.append(esc(r.referat.title))
+                    table_rows.append('</a>')
             table_rows.append('</td>')
         table_rows.append('</tr>')
 
