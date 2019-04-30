@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape as esc
 
 from .forms import TaskForm, TaskEndForm, CategoryForm, EmployeesForm, ReferatForm, \
-    AccreditForm, AssignReferatForm, SetReferatForm
+    AccreditForm, AssignReferatForm, DelReferatForm
 from .models import TodoList, Category, Employees, Referats, Accredits, SetReferat
 from .utils import TaskCalendar, acredit_table
 
@@ -336,6 +336,30 @@ def edit_assigned_referat(request, accredit_id, employee_id, referat_id):
     else:
         form = AssignReferatForm(referats=qs, instance=ref)
 
-    context = {'title': title, 'form': form,
-               'accredit': accredit, 'employee': employee}
+    context = {'title': title, 'form': form, 'accredit': accredit,
+               'employee': employee, 'referat': referat}
     return render(request, 'planer/assign_referat.html', context)
+
+
+@login_required
+def del_assigned_referat(request, accredit_id, employee_id, referat_id):
+    title = 'Отменить назначение реферата'
+    accredit = get_object_or_404(Accredits, id=accredit_id)
+    employee = get_object_or_404(Employees, id=employee_id)
+    referat = get_object_or_404(Referats, id=referat_id)
+    ref = get_object_or_404(SetReferat,
+                            accredit=accredit,
+                            employee=employee,
+                            referat=referat)
+
+    if request.method == 'POST':
+        form = DelReferatForm(request.POST, instance=ref)
+        if form.is_valid():
+            ref.delete()
+            return redirect('accredit_detail', accredit_id)
+    else:
+        form = DelReferatForm(instance=ref)
+
+    context = {'title': title, 'form': form, 'accredit': accredit,
+               'employee': employee, 'referat': referat}
+    return render(request, 'planer/del_assigned_referat.html', context)

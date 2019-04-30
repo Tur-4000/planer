@@ -118,13 +118,13 @@ class AssignReferatForm(forms.ModelForm):
             pass
 
 
-class SetReferatForm(forms.ModelForm):
+class DelReferatForm(forms.ModelForm):
 
     class Meta:
         model = SetReferat
-        fields = ['employee', 'referat', 'date']
+        fields = ['employee', 'referat', 'accredit']
         widgets = {
-            'employee': forms.Select(),
-            'referat': forms.Select(),
-            'date': forms.DateInput(attrs={'id': 'datepicker'})
+            'employee': forms.HiddenInput(),
+            'referat': forms.HiddenInput(),
+            'accredit': forms.HiddenInput(),
         }

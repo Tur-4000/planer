@@ -30,4 +30,7 @@ urlpatterns = [
     path('referat/assign/edit/<int:accredit_id>/<int:employee_id>/<int:referat_id>/',
          views.edit_assigned_referat,
          name='edit_assigned_referat'),
+    path('referat/assign/del/<int:accredit_id>/<int:employee_id>/<int:referat_id>/',
+         views.del_assigned_referat,
+         name='del_assigned_referat'),
 ]
