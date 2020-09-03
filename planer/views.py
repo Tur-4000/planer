@@ -106,6 +106,12 @@ def task_edit(request, task_id):
     context = {'title': title, 'form': form, 'today': today}
     return render(request, 'planer/task.html', context)
 
+# TODO: создать удаление задач
+@login_required
+def task_delete(request, task_id):
+    title = 'Удалить задачу'
+    task = get_object_or_404(TodoList, id=task_id)
+    pass
 
 @login_required
 def category_list(request):
